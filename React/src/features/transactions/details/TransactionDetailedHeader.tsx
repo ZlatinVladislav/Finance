@@ -59,7 +59,7 @@ export default observer(function ActivityDetailedHeader({transaction}: Props) {
             </Segment>
             <Segment clearing attached='bottom'>
                     <Item.Content>
-                        <Button disabled={transaction.isCanceled} as={Link} to={`/manage/${transaction.id}`} color='orange' floated='left'>
+                        <Button disabled={transaction.isCanceled} as={Link} to={`/manageTransaction/${transaction.id}`} color='orange' floated='left'>
                             Edit Transaction
                         </Button>
                         <Button

@@ -6,9 +6,7 @@ import TransactionListItem from "./TransactionListItem";
 
 export default observer(function TransactionList() {
     const {transactionStore} = useStore();
-    const {deleteTransaction, groupedTransactions} = transactionStore;
-
-    const [setTarget] = useState('');
+    const {groupedTransactions} = transactionStore;
 
     return (
         <>
@@ -17,16 +15,11 @@ export default observer(function TransactionList() {
                     <Header sub color='teal'>
                         {group}
                     </Header>
-                    {/*<Segment>*/}
-                    {/*    <Item.Group>*/}
                     {transactions.map((transaction) => (
                         <TransactionListItem key={transaction.id} transaction={transaction}/>
                     ))}
-                    {/*    </Item.Group>*/}
-                    {/*</Segment>*/}
                 </Fragment>
             ))}
         </>
-
     )
 })

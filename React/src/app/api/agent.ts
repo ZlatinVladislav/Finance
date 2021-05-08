@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { history } from "../../index";
 import { store } from "../stores/store";
 import { User, UserFormValues } from "../models/user";
+import { TransactionType, TransactionTypeList } from "../models/transactionType";
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -77,6 +78,14 @@ const Transacions = {
     cancell:(id:string)=>request.post<void>(`/Transaction/${id}/cancel`)
 }
 
+const TransactionTypes = {
+    list: () => request.get<TransactionTypeList>('/TransactionType'),
+    details: (id: string) => request.get<TransactionType>(`/TransactionType/${id}`),
+    create: (transactionType: TransactionType) => request.post<void>('/TransactionType', transactionType),
+    update: (transactionType: TransactionType) => request.put<void>(`/TransactionType/${transactionType.id}`, transactionType),
+    delete: (id: string) => request.del<void>(`/TransactionType/${id}`),
+}
+
 const Account={
     current: () => request.get<User>('/account'),
     login:(user:UserFormValues)=>request.post<User>('/account/login',user),
@@ -84,7 +93,7 @@ const Account={
 }
 
 const agent = {
-    Transacions,Account
+    Transacions,Account,TransactionTypes
 }
 
 export default agent;

@@ -1,4 +1,5 @@
 export const categoryOptions = [
-    {text: 'string', value: '7570234D-7B0A-4B49-A70C-71B4D2BE4B4D'},
-    {text: 'text2', value: '2'}
+    {text: 'string', value: '7F5FA13C-11C6-45BE-9576-7F48AF5062CE'},
+    {text: 'text2', value: '2'},
+    {text: 'text3', value: '123'}
 ]

@@ -5,7 +5,7 @@ import { Link, NavLink } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 
 export default observer(function NavBar() {
-    const {userStore:{user,logout}} = useStore();
+    const {userStore:{user,logout},transactionStore} = useStore();
 
     return (
         <Menu inverted fixed="top">
@@ -15,6 +15,7 @@ export default observer(function NavBar() {
                     Finances
                 </Menu.Item>
                 <Menu.Item as={NavLink} to='/transactions' name='Transactions'/>
+                <Menu.Item as={NavLink} to='/transactionTypes' name='Transaction Types'/>
                 <Menu.Item as={NavLink} to='/error' name='Errors'/>
                 <Menu.Item>
                     <Button as={NavLink} to='/createTransaction' positive content='Create Transaction'/>

@@ -2,9 +2,6 @@ import { makeAutoObservable, runInAction } from "mobx";
 import { Transaction } from "../models/transaction";
 import agent from "../api/agent";
 import { format } from "date-fns";
-import { store } from "./store";
-import { SyntheticEvent } from "react";
-import { ServerResponse } from "http";
 
 export default class TransactionStore {
     transactionRegistry = new Map<string, Transaction>();
@@ -36,7 +33,6 @@ export default class TransactionStore {
         this.loadingInitial = true;
         try {
             const transactions = await agent.Transacions.list();
-
             transactions.transactions.forEach(transaction => {
                 this.setTransaction(transaction);
             })
@@ -45,6 +41,10 @@ export default class TransactionStore {
             console.log(error);
             this.setLoadingInitial(false);
         }
+    }
+
+    setRegistryClear = () => {
+        this.transactionRegistry.clear();
     }
 
     loadTransactions = async (id: string) => {

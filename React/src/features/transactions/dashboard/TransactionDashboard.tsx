@@ -10,8 +10,6 @@ export default observer(function TransactionDashboard() {
     const {transactionStore} = useStore();
     const {loadTransactions, transactionRegistry, loadingTransactions} = transactionStore;
 
-    const [submitting] = useState(false);
-
     useEffect(() => {
         if (transactionRegistry.size <= 1) {
             loadingTransactions();

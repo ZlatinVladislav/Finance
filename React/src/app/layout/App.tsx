@@ -15,6 +15,8 @@ import LogInForm from "../../features/users/LogInForm";
 import { useStore } from "../stores/store";
 import LoadingComponent from "./LoadingComponent";
 import ModalContainer from "../common/modals/modalContainer";
+import TransactionTypeDashboard from "../../features/transactiontypes/dashboard/TransactionTypeDashboard";
+import TransactionTypeForm from "../../features/transactiontypes/form/TransactionTypeForm";
 
 function App() {
     const location = useLocation();
@@ -43,8 +45,12 @@ function App() {
                         <Container style={{marginTop: "67px"}}>
                             <Switch>
                                 <Route exact path='/transactions' component={TransactionDashboard}/>
-                                <Route key={location.key} path={['/createTransaction', '/manage/:id']}
+                                <Route exact path='/transactionTypes' component={TransactionTypeDashboard}/>
+                                <Route key={location.key} path={['/createTransactionType', '/manageTransactionType/:id']}
+                                       component={TransactionTypeForm}/>
+                                <Route key={location.key} path={['/createTransaction', '/manageTransaction/:id']}
                                        component={TransactionForm}/>
+
                                 <Route path='/transactions/:id' component={TransactionDetails}/>
                                 <Route path='/error' component={TestErrors}/>
                                 <Route path='/server-error' component={ServerError}/>

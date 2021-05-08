@@ -10,15 +10,7 @@ interface Props {
 }
 
 export default function TransactionListItem({transaction}: Props) {
-    const {transactionStore, userStore: {user, logout}} = useStore();
-    const {deleteTransaction, loading} = transactionStore;
-
-    const [target, setTarget] = useState('');
-
-    function handleTransactionDelete(event: SyntheticEvent<HTMLButtonElement>, id: string) {
-        setTarget(event.currentTarget.name);
-        deleteTransaction(id);
-    }
+    const {userStore: {user}} = useStore();
 
     return (
         <Segment.Group>

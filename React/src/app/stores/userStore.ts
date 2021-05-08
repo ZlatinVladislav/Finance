@@ -3,9 +3,13 @@ import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
 import { store } from "./store";
 import { history } from "../../index";
+import { useClearBrowserCache } from 'react-clear-browser-cache';
+import { Transaction } from "../models/transaction";
+import TransactionStore from "./transactionStore";
 
 export default class UserStore {
     user: User | null = null;
+    transactionStore:TransactionStore| null = null;
 
     constructor() {
         makeAutoObservable(this);
@@ -27,23 +31,24 @@ export default class UserStore {
         }
     }
 
-    logout=()=>{
+    logout = () => {
         store.commonStore.setToken(null);
         window.localStorage.removeItem('jwt');
-        this.user=null;
+        this.user = null;
+        store.transactionStore.setRegistryClear();
         history.push('/');
     }
 
-    getUser=async ()=>{
+    getUser = async () => {
         try {
-            const user=await agent.Account.current();
-            runInAction(()=>this.user=user);
-        }catch (error){
+            const user = await agent.Account.current();
+            runInAction(() => this.user = user);
+        } catch (error) {
             console.log(error)
         }
     }
 
-    register=async (credentials:UserFormValues)=>{
+    register = async (credentials: UserFormValues) => {
         try {
             const user = await agent.Account.register(credentials);
             store.commonStore.setToken(user.token);
