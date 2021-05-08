@@ -1,0 +1,36 @@
+import { Button, Grid, Icon, Item, Label, Segment } from "semantic-ui-react";
+import { Link } from "react-router-dom";
+import React, { SyntheticEvent, useState } from "react";
+import { useStore } from "../../../app/stores/store";
+import { TransactionType } from "../../../app/models/transactionType";
+
+interface Props {
+    transactionType: TransactionType
+}
+
+export default function TransactionTypeListItem({transactionType}: Props) {
+    const {userStore: {user}} = useStore();
+
+    return (
+        <Segment.Group>
+            <Segment>
+                <Item.Group>
+                    <Item>
+                        <Item.Content>
+                            <Item.Header as={Link} to={`/transactionsType/${transactionType.id}`}>
+                                {transactionType.transactionType}
+                            </Item.Header>
+                        </Item.Content>
+                    </Item>
+                </Item.Group>
+            </Segment>
+            <Segment clearing>
+                <Button as={Link} to={`/manageTransactionType/${transactionType.id}`}
+                        color='teal'
+                        floated='right'
+                        content='Edit'
+                />
+            </Segment>
+        </Segment.Group>
+    )
+}
