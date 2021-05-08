@@ -12,7 +12,8 @@ namespace Finance.Domain.ConfigTable
             // builder.Property(x => x.RowVersion).IsRowVersion();
             builder.HasOne(x => x.TransactionType)
                 .WithMany(x => x.Transactions)
-                .HasForeignKey(x => x.TransactionTypeId);
+                .HasForeignKey(x => x.TransactionTypeId)
+                .OnDelete(DeleteBehavior.SetNull); 
             builder.HasOne(x => x.AppUser)
               .WithMany(x => x.Transactions)
               .HasForeignKey(x => x.Id);

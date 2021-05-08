@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -6,6 +8,7 @@ using Finance.Application.DtoModels.Transaction;
 using Finance.Application.Validations;
 using Finance.Domain.Interfaces;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Finance.Application.Querries.Transaction
 {
@@ -18,17 +21,21 @@ namespace Finance.Application.Querries.Transaction
         public class Handler : IRequestHandler<Query, Result<TransactionListDto>>
         {
             private readonly IMapper _mapper;
+            private readonly IAppUserRepository _appUserRepository;
             private readonly ITransactionRepository _transactionRepository;
 
-            public Handler(ITransactionRepository transactionRepository, IMapper mapper)
+            public Handler(IAppUserRepository appUserRepository,ITransactionRepository transactionRepository, IMapper mapper)
             {
+                _appUserRepository = appUserRepository;
                 _transactionRepository = transactionRepository;
                 _mapper = mapper;
             }
 
             public async Task<Result<TransactionListDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var transactions = await _transactionRepository.GetTransactionsForeignData();
+                var user = await _appUserRepository.GetUser();
+                
+                var transactions = await _transactionRepository.GetTransactionsForeignData(user.Id);
                 var transactionDto = _mapper.Map<IEnumerable<TransactionGetDto>>(transactions);
 
                 var transactionListDto = new TransactionListDto

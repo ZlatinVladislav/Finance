@@ -69,25 +69,30 @@ namespace Finance.Infrastructure.Data.Repositories.Base
             return newModel;
         }
 
-        public async Task Put(TEntity editModel)
-        { 
-            TEntity transaction = await _context.Set<TEntity>().FirstOrDefaultAsync(entity => entity.Id == editModel.Id);
-             _context.Entry(transaction).State = EntityState.Modified;                  
+        public async Task<TEntity> Put(TEntity editModel)
+        {
+            _context.Entry(editModel).State = EntityState.Modified;      
+            return editModel;
         }
 
 
         public async Task Delete(Guid id)
         {
-            TEntity transaction = await _context.Set<TEntity>().FirstOrDefaultAsync(entity => entity.Id == id);
-            if (transaction != null)
+            TEntity model = await _context.Set<TEntity>().FirstOrDefaultAsync(entity => entity.Id == id);
+            if (model != null)
             {
-                _context.Set<TEntity>().Remove(transaction);
+                _context.Set<TEntity>().Remove(model);
             }           
         }
 
         public async Task<bool> SaveChanges()
         {
             return await _context.SaveChangesAsync()>0;
+        }
+        
+        public async Task<EntityState> DetachObject(TEntity model)
+        {
+            return _context.Entry(model).State = EntityState.Detached;     
         }
     }
 }

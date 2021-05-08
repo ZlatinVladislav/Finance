@@ -24,8 +24,9 @@ namespace Finance.Config
             // Domain.Interfaces > Infrastructure.Data.Repositories
             services.AddScoped<IBaseRepository<Transaction>, BaseRepository<Transaction>>();
             services.AddScoped<IBaseRepository<TransactionType>, BaseRepository<TransactionType>>();
-            services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<IAppUserRepository, AppUserRepository>();
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<ITransactionTypeRepository, TransactionTypeRepository>();
         }
     }
 }

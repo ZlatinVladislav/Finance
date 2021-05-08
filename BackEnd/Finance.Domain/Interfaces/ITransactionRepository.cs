@@ -10,7 +10,9 @@ namespace Finance.Domain.Interfaces
 {
     public interface ITransactionRepository : IBaseRepository<Transaction>
     {
+        Task<IReadOnlyList<Transaction>> GetTransactionsForeignData(string id);
         Task<IReadOnlyList<Transaction>> GetTransactionsForeignData();
         Task<Transaction> GetTransactionsForeignDataById(Guid id);
+        Task<Transaction> GetTransactionsForeignDataByIdNoTracking(Guid id);
     }
 }

@@ -19,14 +19,12 @@ namespace Finance.Application.Querries.Transaction
 
         public class Handler : IRequestHandler<Query, Result<TransactionGetDto>>
         {
-            private readonly IBaseRepository<Domain.Models.Transaction> _genericRepository;
             private readonly IMapper _mapper;
             private readonly ITransactionRepository _transactionRepository;
 
-            public Handler(IBaseRepository<Domain.Models.Transaction> genericRepository, IMapper mapper,
+            public Handler(IMapper mapper,
                 ITransactionRepository transactionRepository)
             {
-                _genericRepository = genericRepository;
                 _mapper = mapper;
                 _transactionRepository = transactionRepository;
             }

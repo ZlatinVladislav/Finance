@@ -9,21 +9,18 @@ namespace Finance.Infrastructure.Data.Repositories
 {
     public class AppUserRepository : AppUser, IAppUserRepository
     {
-        private readonly FinanceDBContext _context;
-
+        private readonly DbSet<AppUser> _dbSet;
         private readonly IUserAccesor _userAccesor;
-        // private readonly DbSet<Transaction> _dbSet;
 
         public AppUserRepository(FinanceDBContext dbContext,IUserAccesor userAccesor)
         {
-            _context = dbContext;
             _userAccesor = userAccesor;
-            //_dbSet = dbContext.Set<TEntity>();
+            _dbSet = dbContext.Set<AppUser>();
         }
 
         public async Task<AppUser> GetUser()
         {
-            return await _context.Set<AppUser>().FirstOrDefaultAsync(x => x.UserName == _userAccesor.GetUsername());
+            return await _dbSet.FirstOrDefaultAsync(x => x.UserName == _userAccesor.GetUsername());
         }
     }
 }

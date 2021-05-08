@@ -20,7 +20,8 @@ namespace Finance.Application.Mappers
             //
             CreateMap<TransactionDto, Transaction>()
                 .ForMember(dest => dest.TransactionTypeId, opt => opt.MapFrom(src => src.TransactionTypeId))
-                .ForMember(dest => dest.AppUser, opt => opt.MapFrom(src => src.UserProfileDto));
+                .ForMember(dest => dest.AppUser, opt => opt.MapFrom(src => src.UserProfileDto))
+                .ReverseMap();
 
 
             //  CreateMap<Transaction, TransactionEditDto>().ReverseMap();

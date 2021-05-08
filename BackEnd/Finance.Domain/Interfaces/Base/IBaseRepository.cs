@@ -3,6 +3,7 @@ using Finance.Domain.Models.Base;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Finance.Domain.Interfaces.Base
 {
@@ -11,8 +12,9 @@ namespace Finance.Domain.Interfaces.Base
         Task<TEntity> GetById(Guid id);
         Task<IReadOnlyList<TEntity>> GetAll();
         Task<TEntity> Post(TEntity newIncome);
-        Task Put(TEntity editIncome);
+        Task<TEntity> Put(TEntity editIncome);
         Task Delete(Guid id);
         Task<bool> SaveChanges();
+        Task<EntityState> DetachObject(TEntity model);
     }
 }

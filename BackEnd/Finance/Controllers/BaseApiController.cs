@@ -5,11 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Finance.Application.Validations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Finance.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class BaseApiController: ControllerBase
     {

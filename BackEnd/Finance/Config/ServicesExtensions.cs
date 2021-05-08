@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using Finance.Application.Commands.Transaction;
+using Finance.Application.Commands.TransactionCommands;
 using Finance.Application.Querries.Transaction;
 using Finance.Application.Security;
 using Finance.Application.Services;
@@ -68,7 +68,8 @@ namespace Finance.Config
 
             services.AddAuthorization(opt =>
             {
-                opt.AddPolicy("IsUser", policy => { policy.Requirements.Add(new IsUserRequirement()); });
+                opt.AddPolicy("TransactionByIdRequirement", policy => { policy.Requirements.Add(new TransactionByIdRequirement()); });
+               // opt.AddPolicy("GetListTransactionRequirement", policy => { policy.Requirements.Add(new GetListTransactionRequirement()); });
             });
             services.AddTransient<IAuthorizationHandler, IsUserRequirementHandler>();
             services.AddScoped<TokenService>();

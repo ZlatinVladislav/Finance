@@ -8,7 +8,6 @@ namespace Finance.Domain.ConfigTable
     {
         public void Configure(EntityTypeBuilder<TransactionType> builder)
         {
-            //builder.Property(x => x.Id).("VARCHAR(20))");    
             builder.Property(x => x.TransactionTypes).HasColumnType("VARCHAR(20))");           
         }
     }
