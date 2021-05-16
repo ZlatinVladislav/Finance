@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Finance.Application.DtoModels.Transaction;
+using Finance.Application.DtoModels.TransactionType;
 using Finance.Domain.Models;
 
 namespace Finance.Application.Mappers
@@ -15,7 +16,7 @@ namespace Finance.Application.Mappers
 
             CreateMap<Transaction, TransactionGetDto>()
                 .ForMember(dest => dest.UserProfileDto, opt => opt.MapFrom(src => src.AppUser))
-                .ForMember(dest => dest.TransactionType, opt => opt.MapFrom(src => src.TransactionType))
+                .ForMember(dest => dest.TransactionType, opt => opt.MapFrom(src => src.TransactionType.TransactionTypes))
                 .ReverseMap();
             //
             CreateMap<TransactionDto, Transaction>()

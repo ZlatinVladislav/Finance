@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Finance.Application.DtoModels.Base;
+using Finance.Application.DtoModels.TransactionType;
 using Finance.Application.DtoModels.User;
 using Finance.Domain.Models;
 
@@ -15,7 +16,7 @@ namespace Finance.Application.DtoModels.Transaction
         [Required]
         public bool TransactionStatus { get; set; }
         
-        public TransactionTypeDto  TransactionType { get; set; }
+        public string  TransactionType { get; set; }
         
         public bool IsCanceled { get; set; }
 

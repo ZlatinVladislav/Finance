@@ -19,13 +19,15 @@ namespace Finance.Infrastructure.Data.Repositories
             _dbSet = dbContext.Set<Transaction>();
         }
 
-        public async Task<IReadOnlyList<Transaction>> GetTransactionsForeignData(string id)
+        public async Task<IQueryable<Transaction>> GetTransactionsForeignData(string id,DateTime date)
         {
-            return await _dbSet
+            return _dbSet
+                .Where(d=>d.DateTransaction<=date)
+                .Where(i=>i.AppUser.Id==id)
                 .Include(t=>t.TransactionType)
                 .Include(u=>u.AppUser)
-                .Where(i=>i.AppUser.Id==id)
-                .ToListAsync();
+                .OrderByDescending(d=>d.DateTransaction)
+                .AsQueryable();
         }
 
         public async Task<IReadOnlyList<Transaction>> GetTransactionsForeignData()

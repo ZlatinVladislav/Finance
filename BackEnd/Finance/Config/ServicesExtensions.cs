@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text;
 using Finance.Application.Commands.TransactionCommands;
+using Finance.Application.Interfaces;
+using Finance.Application.Photos;
 using Finance.Application.Querries.Transaction;
 using Finance.Application.Security;
 using Finance.Application.Services;
@@ -73,7 +75,11 @@ namespace Finance.Config
             });
             services.AddTransient<IAuthorizationHandler, IsUserRequirementHandler>();
             services.AddScoped<TokenService>();
-
+            
+            services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
+            
+            //pagination heager
+            
             return services;
             // we can add other services here
         }

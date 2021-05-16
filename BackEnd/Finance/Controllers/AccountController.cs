@@ -34,7 +34,9 @@ namespace Finance.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LogInDto logInDto)
         {
-            var user = await _userManager.FindByEmailAsync(logInDto.Email);
+            var user = _userManager.Users
+                .Include(p => p.Photos)
+                .FirstOrDefault(x => x.Email == logInDto.Email);
             if (user == null) return Unauthorized();
             var result = await _signInManager.CheckPasswordSignInAsync(user, logInDto.Password, false);
 
@@ -51,13 +53,13 @@ namespace Finance.Controllers
         {
             if (await _userManager.Users.AnyAsync(x => x.Email == registerDto.Email))
             {
-                ModelState.AddModelError("email","Email is already registered in system");
+                ModelState.AddModelError("email", "Email is already registered in system");
                 return ValidationProblem();
             }
 
             if (await _userManager.Users.AnyAsync(x => x.UserName == registerDto.Username))
             {
-                ModelState.AddModelError("email","Username is already registered in system");
+                ModelState.AddModelError("email", "Username is already registered in system");
                 return ValidationProblem();
             }
 
@@ -82,7 +84,7 @@ namespace Finance.Controllers
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
-            var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+            var user = _userManager.Users.Include(p=>p.Photos).FirstOrDefault(x=>x.Email==User.FindFirstValue(ClaimTypes.Email));
 
             return CreateUserObject(user);
         }
@@ -92,7 +94,7 @@ namespace Finance.Controllers
             return new UserDto
             {
                 DisplayName = user.DisplayName,
-                Image = null,
+                Image = user?.Photos?.FirstOrDefault(x => x.IsMain)?.Url,
                 Token = _tokenService.CreateToken(user),
                 Username = user.UserName
             };

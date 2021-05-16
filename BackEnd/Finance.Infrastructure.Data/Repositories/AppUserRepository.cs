@@ -20,7 +20,22 @@ namespace Finance.Infrastructure.Data.Repositories
 
         public async Task<AppUser> GetUser()
         {
-            return await _dbSet.FirstOrDefaultAsync(x => x.UserName == _userAccesor.GetUsername());
+            return await _dbSet
+                .FirstOrDefaultAsync(x => x.UserName == _userAccesor.GetUsername());
+        }
+        
+        public async Task<AppUser> GetUserPhoto()
+        {
+            return await _dbSet
+                .Include(p=>p.Photos)
+                .FirstOrDefaultAsync(x => x.UserName == _userAccesor.GetUsername());
+        }
+        
+        public async Task<AppUser> GetUserByUrlUsername(string userName)
+        {
+            return await _dbSet
+                .Include(p=>p.Photos)
+                .FirstOrDefaultAsync(x => x.UserName == userName);
         }
     }
 }

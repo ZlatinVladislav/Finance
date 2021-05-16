@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Finance.Application.Commands.TransactionCommands;
 using Finance.Application.DtoModels.Transaction;
 using Finance.Application.Querries.Transaction;
+using Finance.Application.Services;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Finance.Controllers
@@ -21,9 +22,9 @@ namespace Finance.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetAllTransactions()
+        public async Task<IActionResult> GetAllTransactions([FromQuery] TransactionParams param)
         {
-            return HandleResult(await Mediator.Send(new TransactionList.Query()));
+            return HandlePageResult(await Mediator.Send(new TransactionList.Query{Params = param}));
         }
 
         [Authorize]

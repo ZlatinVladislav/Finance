@@ -90,6 +90,27 @@ namespace Finance.Infrastructure.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Finance.Domain.Models.Photo", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("Photos");
+                });
+
             modelBuilder.Entity("Finance.Domain.Models.Transaction", b =>
                 {
                     b.Property<Guid>("Id")
@@ -130,7 +151,7 @@ namespace Finance.Infrastructure.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("TransactionTypes")
-                        .HasColumnType("VARCHAR(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -268,6 +289,13 @@ namespace Finance.Infrastructure.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Finance.Domain.Models.Photo", b =>
+                {
+                    b.HasOne("Finance.Domain.Models.AppUser", null)
+                        .WithMany("Photos")
+                        .HasForeignKey("AppUserId");
+                });
+
             modelBuilder.Entity("Finance.Domain.Models.Transaction", b =>
                 {
                     b.HasOne("Finance.Domain.Models.AppUser", "AppUser")
@@ -338,6 +366,8 @@ namespace Finance.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Finance.Domain.Models.AppUser", b =>
                 {
+                    b.Navigation("Photos");
+
                     b.Navigation("Transactions");
                 });
 

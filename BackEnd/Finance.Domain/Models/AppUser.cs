@@ -10,5 +10,6 @@ namespace Finance.Domain.Models
         public string DisplayName { get; set; }
         public string Bio { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
+        public ICollection<Photo> Photos { get; set; }
     }
 }

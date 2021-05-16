@@ -11,9 +11,10 @@ namespace Finance.Infrastructure.Data.Context
         {
         }
 
-         public DbSet<Transaction> Transaction { get; set; }
-         public DbSet<TransactionType> TransactionType { get; set; }
+        public DbSet<Transaction> Transaction { get; set; }
+        public DbSet<TransactionType> TransactionType { get; set; }
         public DbSet<AppUser> AppUser { get; set; }
+        public DbSet<Photo> Photos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -18,6 +18,7 @@ namespace Finance.Config
             // Application
             services.AddScoped<IUserAccesor, UserAccessor>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IPhotoAccessor, PhotoAccessor>();
           //  services.AddScoped<ITransactionTypeService, TransactionTypeService>();
 
 
