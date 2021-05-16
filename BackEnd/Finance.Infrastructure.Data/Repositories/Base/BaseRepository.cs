@@ -21,7 +21,7 @@ namespace Finance.Infrastructure.Data.Repositories.Base
             _dbSet = context.Set<TEntity>();
         }
 
-        public async Task<IReadOnlyList<TEntity>> GetAll()
+        public async Task<IQueryable<TEntity>> GetAll()
         {
             //return _context.Set<T>().AsEnumerable().OrderByDescending(c => c.Id);
             //foreach (var firstItem in _context.Set<TransactionType>().Include(x=>x.Transactions))
@@ -55,7 +55,7 @@ namespace Finance.Infrastructure.Data.Repositories.Base
             //select new { transaction = transaction.TransactionTypes, transactionType = subcategory.TransactionTypes };
 
 
-            return await _context.Set<TEntity>().ToListAsync();
+            return _context.Set<TEntity>().AsQueryable();
         }
 
         public async Task<TEntity> GetById(Guid id)
