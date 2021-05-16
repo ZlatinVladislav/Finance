@@ -1,10 +1,12 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { Transaction, TransactionList } from "../models/transaction";
+import { Transaction, TransactionFormValues } from "../models/transaction";
 import { toast } from "react-toastify";
 import { history } from "../../index";
 import { store } from "../stores/store";
 import { User, UserFormValues } from "../models/user";
-import { TransactionType, TransactionTypeList } from "../models/transactionType";
+import { TransactionType, TransactionTypeFormValues } from "../models/transactionType";
+import { Photo, UserProfile } from "../models/profile";
+import { PaginatedResult } from "../models/pagination";
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -14,14 +16,19 @@ const sleep = (delay: number) => {
 
 axios.defaults.baseURL = 'https://localhost:44303/api';
 
-axios.interceptors.request.use(config=>{
-    const token=store.commonStore.token;
-    if(token) config.headers.authorization=`Bearer ${token}`
+axios.interceptors.request.use(config => {
+    const token = store.commonStore.token;
+    if (token) config.headers.authorization = `Bearer ${token}`
     return config;
 })
 
 axios.interceptors.response.use(async response => {
     await sleep(1000);
+    const pagination = response.headers['pagination'];
+    if (pagination) {
+        response.data = new PaginatedResult(response.data, JSON.parse(pagination));
+        return response as AxiosResponse<PaginatedResult<any>>
+    }
     return response
 }, (error: AxiosError) => {
     const {data, status, config} = error.response!;
@@ -44,7 +51,7 @@ axios.interceptors.response.use(async response => {
             }
             break;
         case 401:
-            toast.error('unauthorized')
+            toast.error('Unauthorized')
             break;
         case 403:
             toast.error('Forbidden')
@@ -70,30 +77,43 @@ const request = {
 }
 
 const Transacions = {
-    list: () => request.get<TransactionList>('/Transaction'),
+    list: (params: URLSearchParams) => axios.get<PaginatedResult<Transaction[]>>('/Transaction', {params}).then(responseBody),
     details: (id: string) => request.get<Transaction>(`/Transaction/${id}`),
-    create: (transaction: Transaction) => request.post<void>('/Transaction', transaction),
-    update: (transaction: Transaction) => request.put<void>(`/Transaction/${transaction.id}`, transaction),
+    create: (transaction: TransactionFormValues) => request.post<void>('/Transaction', transaction),
+    update: (transaction: TransactionFormValues) => request.put<void>(`/Transaction/${transaction.id}`, transaction),
     delete: (id: string) => request.del<void>(`/Transaction/${id}`),
-    cancell:(id:string)=>request.post<void>(`/Transaction/${id}/cancel`)
+    cancell: (id: string) => request.post<void>(`/Transaction/${id}/cancel`)
 }
 
 const TransactionTypes = {
-    list: () => request.get<TransactionTypeList>('/TransactionType'),
+    list: (params: URLSearchParams) => axios.get<PaginatedResult<TransactionType[]>>('/TransactionType',{params}).then(responseBody),
     details: (id: string) => request.get<TransactionType>(`/TransactionType/${id}`),
-    create: (transactionType: TransactionType) => request.post<void>('/TransactionType', transactionType),
-    update: (transactionType: TransactionType) => request.put<void>(`/TransactionType/${transactionType.id}`, transactionType),
+    create: (transactionType: TransactionTypeFormValues) => request.post<void>('/TransactionType', transactionType),
+    update: (transactionType: TransactionTypeFormValues) => request.put<void>(`/TransactionType/${transactionType.id}`, transactionType),
     delete: (id: string) => request.del<void>(`/TransactionType/${id}`),
 }
 
-const Account={
+const Account = {
     current: () => request.get<User>('/account'),
-    login:(user:UserFormValues)=>request.post<User>('/account/login',user),
-    register:(user:UserFormValues)=>request.post<User>('/account/register',user)
+    login: (user: UserFormValues) => request.post<User>('/account/login', user),
+    register: (user: UserFormValues) => request.post<User>('/account/register', user)
+}
+
+const UserProfiles = {
+    get: (userName: string) => request.get<UserProfile>(`/userProfile/${userName}`),
+    uploadPhoto: (file: Blob) => {
+        let formData = new FormData();
+        formData.append('File', file);
+        return axios.post<Photo>('photo', formData, {
+            headers: {'Content-type': 'multipart/form-data'}
+        })
+    },
+    setMainPhoto: (id: string) => request.post(`/photo/${id}/setMain`, {}),
+    deletePhoto: (id: string) => request.del(`/photo/${id}`)
 }
 
 const agent = {
-    Transacions,Account,TransactionTypes
+    Transacions, Account, TransactionTypes, UserProfiles
 }
 
 export default agent;

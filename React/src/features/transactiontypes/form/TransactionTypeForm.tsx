@@ -8,12 +8,8 @@ import { v4 as uuid } from 'uuid';
 import { ErrorMessage, Form, Formik } from "formik";
 import * as Yup from 'yup'
 import MyTextInput from "../../../app/common/form/MyTextInput";
-import MySelectInput from "../../../app/common/form/MySelectInput";
-import { categoryOptions } from "../../../app/common/options/categoryOptions";
-import MyDateInput from "../../../app/common/form/MyDateInput";
-import { Transaction } from "../../../app/models/transaction";
-import ValidationError from "../../errors/ValidationError";
-import { TransactionType } from "../../../app/models/transactionType";
+import { TransactionType, TransactionTypeFormValues } from "../../../app/models/transactionType";
+import { TransactionFormValues } from "../../../app/models/transaction";
 
 export default observer(function TransactionForm() {
     const history = useHistory();
@@ -27,10 +23,7 @@ export default observer(function TransactionForm() {
     } = transactionTypeStore;
     const {id} = useParams<{ id: string }>();
 
-    const [transactionType, setTransactionType] = useState({
-        id: '',
-        transactionType: ''
-    });
+    const [transactionType, setTransactionType] = useState<TransactionTypeFormValues>(new TransactionTypeFormValues());
 
     const validationSchema = Yup.object({
         transactionType: Yup.string().required('The transaction type field is required'),
@@ -39,17 +32,16 @@ export default observer(function TransactionForm() {
     useEffect(() => {
         if (id) {
             // @ts-ignore
-            loadTransactionTypes(id).then(transactionType => setTransactionType(transactionType));
+            loadTransactionTypes(id).then(transactionType => setTransactionType(new TransactionTypeFormValues(transactionType)));
         }
     }, [id, loadTransactionTypes])
 
-    function handleFormSubmit(transactionType: TransactionType) {
-        if (transactionType.id.length === 0) {
+    function handleFormSubmit(transactionType: TransactionTypeFormValues) {
+        if (!transactionType.id) {
             let newTransactionType = {
                 ...transactionType, id: uuid()
             };
             createTransactionType(newTransactionType)
-
                 .then(() => history.push(`/transactionTypes`))
         } else {
             updateTransactionType(transactionType)
@@ -72,7 +64,7 @@ export default observer(function TransactionForm() {
                                      name='transactionType'/>
                         <Button
                             disabled={isSubmitting || !dirty || !isValid}
-                            loading={loading} floated='right' positive type='submit' content='Submit'/>
+                            loading={isSubmitting} floated='right' positive type='submit' content='Submit'/>
                         <Button as={Link} to={`/transactionTypes`} floated='right' type='button'
                                 content='Cancel'/>
                     </Form>

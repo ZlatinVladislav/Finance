@@ -1,34 +1,70 @@
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable, reaction, runInAction } from "mobx";
 import agent from "../api/agent";
-import { TransactionType } from "../models/transactionType";
+import { TransactionType, TransactionTypeFormValues } from "../models/transactionType";
+import { Transaction, TransactionFormValues } from "../models/transaction";
+import { PaginatedResult, Pagination, PagingParams } from "../models/pagination";
 
 export default class TransactionTypeStore {
     transactionTypeRegistry = new Map<string, TransactionType>();
+    transactionTypeOption = new Map<string, string>();
     selectedTransactionType: TransactionType | undefined = undefined;
     editMode = false;
     loading = false;
     loadingInitial = false;
+    pagination: Pagination | null = null;
+    predicate = new Map().set('all', 'true');
+    pagingParams = new PagingParams();
 
     constructor() {
         makeAutoObservable(this)
+
+        reaction(() => this.predicate.keys(), () => {
+            this.pagingParams = new PagingParams();
+            this.transactionTypeRegistry.clear();
+            this.loadingTransactionTypes()
+        })
+    }
+
+    setPagingParams = (pagingParams: PagingParams) => {
+        this.pagingParams = pagingParams;
+    }
+
+    get axiosParams() {
+        const params = new URLSearchParams();
+        params.append('pageNumber', this.pagingParams.pageNumber.toString());
+        params.append('pageSize', this.pagingParams.pageSize.toString());
+        this.predicate.forEach(((value, key) => {
+            params.append(key, value);
+        }))
+        return params;
     }
 
     get transactionTypesAlphabetically() {
         return Array.from(this.transactionTypeRegistry.values())
     }
 
-    loadingTransactions = async () => {
+    loadingTransactionTypes = async () => {
         this.loadingInitial = true;
         try {
-            const transactionTypes = await agent.TransactionTypes.list();
-            transactionTypes.transactionTypes.forEach(transactionType => {
+            const result = await agent.TransactionTypes.list(this.axiosParams);
+            result.data.forEach(transactionType => {
                 this.setTransactionType(transactionType);
+                this.setTransactionTypeOption(transactionType);
             })
+            this.setPagination(result.pagination)
             this.setLoadingInitial(false);
         } catch (error) {
             console.log(error);
             this.setLoadingInitial(false);
         }
+    }
+
+    setPagination = (pagination: Pagination) => {
+        this.pagination = pagination;
+    }
+
+    get transactionTypesOptionsArray() {
+        return Array.from(this.transactionTypeOption, ([text, value]) => ({text, value}));
     }
 
     setRegistryClear = () => {
@@ -61,39 +97,32 @@ export default class TransactionTypeStore {
         this.loadingInitial = state;
     }
 
-    createTransactionType = async (transactionType: TransactionType) => {
-        this.loading = true;
+    createTransactionType = async (transactionType: TransactionTypeFormValues) => {
         try {
             await agent.TransactionTypes.create(transactionType);
+            const newTransactionType = new TransactionType(transactionType);
+            this.setTransactionType(newTransactionType);
             runInAction(() => {
-                this.transactionTypeRegistry.set(transactionType.id, transactionType);
-                this.selectedTransactionType = transactionType;
-                this.editMode = false;
-                this.loading = false;
+                this.selectedTransactionType = newTransactionType;
             })
         } catch (error) {
             console.log(error)
-            runInAction(() => {
-                this.loading = false;
-            })
         }
     }
 
-    updateTransactionType = async (transactionType: TransactionType) => {
-        this.loading = true;
+    updateTransactionType = async (transactionType: TransactionTypeFormValues) => {
         try {
             await agent.TransactionTypes.update(transactionType);
             runInAction(() => {
-                this.transactionTypeRegistry.set(transactionType.id, transactionType);
-                this.selectedTransactionType = transactionType;
-                this.editMode = false;
-                this.loading = false;
+                if (transactionType.id) {
+                    let updatedTransactionType = {...this.getTransactionType(transactionType.id), ...transactionType}
+                    this.transactionTypeRegistry.set(transactionType.id, updatedTransactionType as TransactionType);
+                    this.selectedTransactionType = transactionType as TransactionType;
+                    this.transactionTypeOption.clear()
+                }
             })
         } catch (error) {
             console.log(error)
-            runInAction(() => {
-                this.loading = false;
-            })
         }
     }
 
@@ -115,6 +144,10 @@ export default class TransactionTypeStore {
 
     private setTransactionType = (transactionType: TransactionType) => {
         this.transactionTypeRegistry.set(transactionType.id, transactionType);
+    }
+
+    private setTransactionTypeOption = (transactionType: TransactionType) => {
+        this.transactionTypeOption.set(transactionType.transactionType, transactionType.id);
     }
 
     private getTransactionType = (id: string) => {

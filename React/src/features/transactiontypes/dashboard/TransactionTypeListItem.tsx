@@ -9,7 +9,12 @@ interface Props {
 }
 
 export default function TransactionTypeListItem({transactionType}: Props) {
-    const {userStore: {user}} = useStore();
+    const {transactionTypeStore: { loading,deleteTransactionType}, userStore: {user, logout}} = useStore();
+    const [target, setTarget] = useState('');
+    function handleTransactionTypeDelete(event: SyntheticEvent<HTMLButtonElement>, id: string) {
+        setTarget(event.currentTarget.name);
+        deleteTransactionType(id);
+    }
 
     return (
         <Segment.Group>
@@ -25,6 +30,14 @@ export default function TransactionTypeListItem({transactionType}: Props) {
                 </Item.Group>
             </Segment>
             <Segment clearing>
+                <Button
+                    as={Link} to={`/transactionTypes`}
+                    onClick={(e)=>handleTransactionTypeDelete(e,transactionType.id)}
+                    color='red'
+                    name={transactionType.id}
+                    loading={loading && target===transactionType.id}
+                    floated='right'
+                    content='Delete Type'/>
                 <Button as={Link} to={`/manageTransactionType/${transactionType.id}`}
                         color='teal'
                         floated='right'

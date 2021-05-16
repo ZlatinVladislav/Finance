@@ -12,6 +12,14 @@ body {
     box-shadow: 0 1px 2px 0 rgba(34, 36, 38, .15);
 }
 
+#root {
+    background-color: #EAEAEA !important;
+}
+
+.default-margin {
+    margin-top: 67px
+}
+
 /*home page styles*/
 .masthead {
     display: flex;

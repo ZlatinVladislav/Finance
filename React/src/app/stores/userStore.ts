@@ -9,7 +9,7 @@ import TransactionStore from "./transactionStore";
 
 export default class UserStore {
     user: User | null = null;
-    transactionStore:TransactionStore| null = null;
+    transactionStore: TransactionStore | null = null;
 
     constructor() {
         makeAutoObservable(this);
@@ -57,6 +57,12 @@ export default class UserStore {
             store.modalStore.closeModal();
         } catch (error) {
             throw error;
+        }
+    }
+
+    setImage = (image: string) => {
+        if (this.user) {
+            this.user.image = image;
         }
     }
 }

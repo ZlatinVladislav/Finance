@@ -1,7 +1,9 @@
-import { makeAutoObservable, runInAction } from "mobx";
-import { Transaction } from "../models/transaction";
+import { makeAutoObservable, reaction, runInAction } from "mobx";
+import { Transaction, TransactionFormValues } from "../models/transaction";
 import agent from "../api/agent";
 import { format } from "date-fns";
+import { Pagination, PagingParams } from "../models/pagination";
+import { toast } from "react-toastify";
 
 export default class TransactionStore {
     transactionRegistry = new Map<string, Transaction>();
@@ -9,9 +11,62 @@ export default class TransactionStore {
     editMode = false;
     loading = false;
     loadingInitial = false;
+    pagination: Pagination | null = null;
+    pagingParams = new PagingParams();
+    predicate = new Map().set('all', 'true');
 
     constructor() {
         makeAutoObservable(this)
+
+        reaction(() => this.predicate.keys(), () => {
+            this.pagingParams = new PagingParams();
+            this.transactionRegistry.clear();
+            this.loadingTransactions()
+        })
+    }
+
+    setPagingParams = (pagingParams: PagingParams) => {
+        this.pagingParams = pagingParams;
+    }
+
+    setPredicate = (predicate: string, value: string | Date) => {
+        const resetPredicate = () => {
+            this.predicate.forEach((value, key) => {
+                if (key !== 'startDate') this.predicate.delete(key);
+            })
+        }
+        switch (predicate) {
+            case 'all':
+                resetPredicate()
+                this.predicate.set('all','true' );
+                break;
+            case'transactionStatusIncome':
+                resetPredicate()
+                this.predicate.set('transactionStatus', true);
+                break;
+            case'transactionStatusOutcome':
+                resetPredicate()
+                this.predicate.set('transactionStatus', false);
+                break;
+            case 'startDate':
+                this.predicate.delete('startDate');
+                this.predicate.set('startDate', value);
+                break;
+        }
+    }
+
+    get axiosParams() {
+        const params = new URLSearchParams();
+        params.append('pageNumber', this.pagingParams.pageNumber.toString());
+        params.append('pageSize', this.pagingParams.pageSize.toString());
+        this.predicate.forEach(((value, key) => {
+            if (key === 'startDate') {
+                params.append(key, (value as Date).toISOString())
+            } else {
+                params.append(key, value);
+            }
+        }))
+        return params;
     }
 
     get transactionsByDate() {
@@ -32,15 +87,20 @@ export default class TransactionStore {
     loadingTransactions = async () => {
         this.loadingInitial = true;
         try {
-            const transactions = await agent.Transacions.list();
-            transactions.transactions.forEach(transaction => {
+            const result = await agent.Transacions.list(this.axiosParams);
+            result.data.forEach(transaction => {
                 this.setTransaction(transaction);
             })
+            this.setPagination(result.pagination)
             this.setLoadingInitial(false);
         } catch (error) {
             console.log(error);
             this.setLoadingInitial(false);
         }
+    }
+
+    setPagination = (pagination: Pagination) => {
+        this.pagination = pagination;
     }
 
     setRegistryClear = () => {
@@ -73,39 +133,33 @@ export default class TransactionStore {
         this.loadingInitial = state;
     }
 
-    createTransaction = async (transaction: Transaction) => {
-        this.loading = true;
+    createTransaction = async (transaction: TransactionFormValues) => {
         try {
             await agent.Transacions.create(transaction);
+            const newTransaction=new Transaction(transaction);
+            this.setTransaction(newTransaction);
             runInAction(() => {
-                this.transactionRegistry.set(transaction.id, transaction);
-                this.selectedTransaction = transaction;
-                this.editMode = false;
-                this.loading = false;
+                this.selectedTransaction = newTransaction;
             })
         } catch (error) {
-            console.log(error)
-            runInAction(() => {
-                this.loading = false;
-            })
+            console.log(error.response)
+            throw error;
         }
     }
 
-    updateTransaction = async (transaction: Transaction) => {
-        this.loading = true;
+    updateTransaction = async (transaction: TransactionFormValues) => {
         try {
             await agent.Transacions.update(transaction);
             runInAction(() => {
-                this.transactionRegistry.set(transaction.id, transaction);
-                this.selectedTransaction = transaction;
-                this.editMode = false;
-                this.loading = false;
+                if(transaction.id){
+                    let updatedTransaction={...this.getTransaction(transaction.id),...transaction}
+                    this.transactionRegistry.set(transaction.id, updatedTransaction  as Transaction);
+                    this.selectedTransaction = updatedTransaction as Transaction;
+                }
             })
         } catch (error) {
             console.log(error)
-            runInAction(() => {
-                this.loading = false;
-            })
+            throw error;
         }
     }
 
@@ -134,18 +188,18 @@ export default class TransactionStore {
         return this.transactionRegistry.get(id);
     }
 
-    cancelTransaction=async ()=>{
-        this.loading=true;
+    cancelTransaction = async () => {
+        this.loading = true;
         try {
             await agent.Transacions.cancell(this.selectedTransaction!.id);
-            runInAction(()=>{
-                this.selectedTransaction!.isCanceled=!this.selectedTransaction?.isCanceled;
-                this.transactionRegistry.set(this.selectedTransaction!.id,this.selectedTransaction!);
+            runInAction(() => {
+                this.selectedTransaction!.isCanceled = !this.selectedTransaction?.isCanceled;
+                this.transactionRegistry.set(this.selectedTransaction!.id, this.selectedTransaction!);
             })
-        }catch (error) {
+        } catch (error) {
             console.log(error)
-        }finally {
-            runInAction(()=>this.loading=false)
+        } finally {
+            runInAction(() => this.loading = false)
         }
     }
 }

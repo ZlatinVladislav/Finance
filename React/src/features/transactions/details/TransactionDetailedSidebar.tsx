@@ -56,6 +56,5 @@ export default observer(function ActivityDetailedSidebar() {
                 </List>
             </Segment>
         </>
-
     )
 })

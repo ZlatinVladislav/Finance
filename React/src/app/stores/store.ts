@@ -5,6 +5,7 @@ import UserStore from "./userStore";
 import ModalStore from "./modalStore";
 import { TransactionType } from "../models/transactionType";
 import TransactionTypeStore from "./transactionTypeStore";
+import UserProfileStore from "./userProfileStore";
 
 interface Store {
     transactionTypeStore:TransactionTypeStore
@@ -12,6 +13,7 @@ interface Store {
     commonStore: CommonStore
     userStore: UserStore
     modalStore: ModalStore
+    userProfileStore:UserProfileStore
 }
 
 export const store: Store = {
@@ -19,7 +21,8 @@ export const store: Store = {
     transactionStore: new TransactionStore(),
     commonStore: new CommonStore(),
     userStore: new UserStore(),
-    modalStore: new ModalStore()
+    modalStore: new ModalStore(),
+    userProfileStore:new UserProfileStore()
 }
 
 export const StoreContext = createContext(store);

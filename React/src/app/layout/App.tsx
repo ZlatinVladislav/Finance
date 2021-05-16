@@ -17,6 +17,9 @@ import LoadingComponent from "./LoadingComponent";
 import ModalContainer from "../common/modals/modalContainer";
 import TransactionTypeDashboard from "../../features/transactiontypes/dashboard/TransactionTypeDashboard";
 import TransactionTypeForm from "../../features/transactiontypes/form/TransactionTypeForm";
+import UserProfilePage from "../../features/profiles/UserProfilePage";
+import PrivateRoute from "./PrivateRoute";
+import "./styles.css";
 
 function App() {
     const location = useLocation();
@@ -42,19 +45,19 @@ function App() {
                 render={() => (
                     <>
                         <NavBar/>
-                        <Container style={{marginTop: "67px"}}>
+                        <Container className="default-margin">
                             <Switch>
-                                <Route exact path='/transactions' component={TransactionDashboard}/>
-                                <Route exact path='/transactionTypes' component={TransactionTypeDashboard}/>
-                                <Route key={location.key} path={['/createTransactionType', '/manageTransactionType/:id']}
+                                <PrivateRoute exact path='/transactions' component={TransactionDashboard}/>
+                                <PrivateRoute exact path='/transactionTypes' component={TransactionTypeDashboard}/>
+                                <PrivateRoute key={location.key} path={['/createTransactionType', '/manageTransactionType/:id']}
                                        component={TransactionTypeForm}/>
-                                <Route key={location.key} path={['/createTransaction', '/manageTransaction/:id']}
+                                <PrivateRoute key={location.key} path={['/createTransaction', '/manageTransaction/:id']}
                                        component={TransactionForm}/>
-
-                                <Route path='/transactions/:id' component={TransactionDetails}/>
+                                <PrivateRoute path='/transactions/:id' component={TransactionDetails}/>
+                                <PrivateRoute path='/userProfile/:userName' component={UserProfilePage}/>
                                 <Route path='/error' component={TestErrors}/>
                                 <Route path='/server-error' component={ServerError}/>
-                                <Route path='/login' component={LogInForm}/>
+                                {/*<Route path='/login' component={LogInForm}/>*/}
                                 <Route component={NotFound}/>
                             </Switch>
                         </Container>

@@ -6,7 +6,6 @@ import { useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import TransactionDetailedHeader from "./TransactionDetailedHeader";
 import TransactionDetailedInfo from "./TransactionDetailedInfo";
-import TransactionDetailedChat from "./TransactionDetailedChat";
 import TransactionDetailedSidebar from "./TransactionDetailedSidebar";
 
 export default observer(function TransactionDetails() {
@@ -27,7 +26,6 @@ export default observer(function TransactionDetails() {
             <Grid.Column width={10}>
                 <TransactionDetailedHeader transaction={transaction}/>
                 <TransactionDetailedInfo transaction={transaction}/>
-                <TransactionDetailedChat/>
             </Grid.Column>
             <Grid.Column width={6}>
                 <TransactionDetailedSidebar/>

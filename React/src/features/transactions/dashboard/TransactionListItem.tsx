@@ -16,16 +16,17 @@ export default function TransactionListItem({transaction}: Props) {
         <Segment.Group>
             <Segment>
                 {transaction.isCanceled &&
-                <Label attached='top' color='red' content='Cancelled' style={{textAlign:'center'}}/>
+                <Label attached='top' color='red' content='Cancelled' style={{textAlign: 'center'}}/>
                 }
                 <Item.Group>
                     <Item>
-                        <Item.Image size='tiny' circular src='assets/user.png'/>
+                        <Item.Image size='tiny' circular src={user?.image || 'assets/user.png'}/>
                         <Item.Content>
                             <Item.Header as={Link} to={`/transactions/${transaction.id}`}>
                                 {transaction.money}
                             </Item.Header>
-                            <Item.Description>Created by {user?.displayName}</Item.Description>
+                            <Item.Description>Created by <Link
+                                to={`/userProfile/${user?.username}`}>{user?.displayName}</Link></Item.Description>
                         </Item.Content>
                     </Item>
                 </Item.Group>

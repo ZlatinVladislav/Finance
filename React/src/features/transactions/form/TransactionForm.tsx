@@ -9,14 +9,20 @@ import { ErrorMessage, Form, Formik } from "formik";
 import * as Yup from 'yup'
 import MyTextInput from "../../../app/common/form/MyTextInput";
 import MySelectInput from "../../../app/common/form/MySelectInput";
-import { categoryOptions } from "../../../app/common/options/categoryOptions";
 import MyDateInput from "../../../app/common/form/MyDateInput";
-import { Transaction } from "../../../app/models/transaction";
+import { Transaction, TransactionFormValues } from "../../../app/models/transaction";
 import ValidationError from "../../errors/ValidationError";
 
 export default observer(function TransactionForm() {
     const history = useHistory();
-    const {transactionStore} = useStore();
+    const {
+        transactionTypeStore: {
+            loadTransactionTypes,
+            transactionTypesOptionsArray,
+            transactionTypeRegistry,
+            loadingTransactionTypes
+        }, transactionStore
+    } = useStore();
     const {
         createTransaction,
         updateTransaction,
@@ -24,15 +30,11 @@ export default observer(function TransactionForm() {
         loadTransactions,
         loadingInitial
     } = transactionStore;
+   // const [errors, setErros] = useState(null);
     const {id} = useParams<{ id: string }>();
 
-    const [transaction, setTransaction] = useState({
-        id: '',
-        money: 0,
-        transactionStatus: true,
-        dateTransaction: null,
-        transactionTypeId: ''
-    });
+    const [transaction, setTransaction] = useState<TransactionFormValues>(new TransactionFormValues());
+    const tansacitonStatus=['null','Income','Outcome'];
 
     const validationSchema = Yup.object({
         money: Yup.number().min(1).required('The money field is required and greater than 0'),
@@ -44,19 +46,22 @@ export default observer(function TransactionForm() {
     useEffect(() => {
         if (id) {
             // @ts-ignore
-            loadTransactions(id).then(transaction => setTransaction(transaction));
+            loadTransactions(id).then(transaction => setTransaction(new TransactionFormValues(transaction)));
         }
-    }, [id, loadTransactions])
+        loadingTransactionTypes();
+    }, [id, loadTransactions, loadTransactionTypes])
 
-    function handleFormSubmit(transaction: Transaction) {
-        if (transaction.id.length === 0) {
+    function handleFormSubmit(transaction: TransactionFormValues) {
+        if (!transaction.id) {
             let newTransaction = {
                 ...transaction, id: uuid()
             };
             createTransaction(newTransaction)
+             //   .catch(err => setErros(err.response))
                 .then(() => history.push(`/transactions/${newTransaction.id}`))
         } else {
             updateTransaction(transaction)
+             //   .catch(err => setErros(err.response))
                 .then(() => history.push(`/transactions/${transaction.id}`))
         }
     }
@@ -69,21 +74,24 @@ export default observer(function TransactionForm() {
             <Formik
                 validationSchema={validationSchema}
                 enableReinitialize initialValues={transaction}
-                onSubmit={(values,{setErrors}) => handleFormSubmit(values)}>
-                {({handleSubmit, isValid, isSubmitting, dirty,errors}) => (
+                onSubmit={(values, {setErrors}) => handleFormSubmit(values)}>
+                {({handleSubmit, isValid, isSubmitting, dirty, errors}) => (
                     <Form className='ui form' onSubmit={handleSubmit} autoComplete='off'>
                         <MyTextInput placeholder='Money' name='money'/>
                         <MyTextInput placeholder='TransactionStatus'
                                      name='transactionStatus'/>
-                        <MySelectInput options={categoryOptions} placeholder='TransactionType'
+                        <MySelectInput options={transactionTypesOptionsArray} placeholder='TransactionType'
                                        name='transactionTypeId'/>
                         <MyDateInput
                             placeholderText='TransactionDate'
                             name='dateTransaction'
                             dateFormat='d MMMM,yyyy'/>
+                        <ErrorMessage name='error' render={() =>
+                            <ValidationError errors={errors.error}/>}
+                        />
                         <Button
                             disabled={isSubmitting || !dirty || !isValid}
-                            loading={loading} floated='right' positive type='submit' content='Submit'/>
+                            loading={isSubmitting} floated='right' positive type='submit' content='Submit'/>
                         {transaction.id === '' ?
                             <Button as={Link} to={`/transactions`} floated='right' type='button'
                                     content='Cancel'/> :
