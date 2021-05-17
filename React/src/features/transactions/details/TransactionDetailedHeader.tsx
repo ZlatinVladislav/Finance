@@ -7,16 +7,16 @@ import { format } from "date-fns";
 import { useStore } from "../../../app/stores/store";
 
 const activityImageStyle = {
-    filter: 'brightness(30%)'
+    filter: 'brightness(50%)'
 };
 
 const activityImageTextStyle = {
     position: 'absolute',
     bottom: '5%',
     left: '5%',
-    width: '100%',
-    height: 'auto',
-    color: 'white'
+    width: 'auto',
+    height: '50',
+    color: 'white',
 };
 
 interface Props {
@@ -24,20 +24,25 @@ interface Props {
 }
 
 export default observer(function ActivityDetailedHeader({transaction}: Props) {
-    const {transactionStore: {cancelTransaction, loading,deleteTransaction}, userStore: {user, logout}} = useStore();
+    const {transactionStore: {cancelTransaction, loading, deleteTransaction}, userStore: {user}} = useStore();
     const [target, setTarget] = useState('');
+
     function handleTransactionDelete(event: SyntheticEvent<HTMLButtonElement>, id: string) {
         setTarget(event.currentTarget.name);
         deleteTransaction(id);
     }
+
     return (
         <Segment.Group>
             {transaction.isCanceled &&
-            <Label style={{position: 'absolute', zIndex: '1000', left: -14, top: 20}} ribbon color='red'
-                   content='Cancelled'/>
+            <Label attached='top' color='red' content='Cancelled' style={{textAlign: 'center', zIndex: '1000',}}/>
             }
             <Segment basic attached='top' style={{padding: '0'}}>
-                <Image src={`/assets/categoryImages/film.jpg`} fluid style={activityImageStyle}/>
+                {transaction.transactionStatus === false ?
+                    <Image src={`/assets/categoryImages/outcome.png`} fluid style={activityImageStyle}/>
+                    :
+                    <Image src={`/assets/categoryImages/income.png`} fluid style={activityImageStyle}/>
+                }
                 <Segment style={activityImageTextStyle} basic>
                     <Item.Group>
                         <Item>
@@ -58,27 +63,28 @@ export default observer(function ActivityDetailedHeader({transaction}: Props) {
                 </Segment>
             </Segment>
             <Segment clearing attached='bottom'>
-                    <Item.Content>
-                        <Button disabled={transaction.isCanceled} as={Link} to={`/manageTransaction/${transaction.id}`} color='orange' floated='left'>
-                            Edit Transaction
-                        </Button>
-                        <Button
-                            color={transaction.isCanceled ? 'green' : 'red'}
-                            floated='left'
-                            basic
-                            content={transaction.isCanceled ? 'Re-activate transaction' : 'Cancel Transaction'}
-                            onClick={cancelTransaction}
-                            loading={loading}
+                <Item.Content>
+                    <Button disabled={transaction.isCanceled} as={Link} to={`/manageTransaction/${transaction.id}`}
+                            color='orange' floated='left'>
+                        Edit Transaction
+                    </Button>
+                    <Button
+                        color={transaction.isCanceled ? 'green' : 'red'}
+                        floated='left'
+                        basic
+                        content={transaction.isCanceled ? 'Re-activate transaction' : 'Cancel Transaction'}
+                        onClick={cancelTransaction}
+                        loading={loading}
+                        name={transaction.id}
+                    />
+                    <Button disabled={transaction.isCanceled}
+                            as={Link} to={`/transactions`}
+                            onClick={(e) => handleTransactionDelete(e, transaction.id)}
+                            color='red'
                             name={transaction.id}
-                           />
-                        <Button disabled={transaction.isCanceled}
-                                as={Link} to={`/transactions`}
-                                onClick={(e)=>handleTransactionDelete(e,transaction.id)}
-                                color='red'
-                                name={transaction.id}
-                                loading={loading && target===transaction.id}
-                                floated='right'>Delete Transaction</Button>
-                    </Item.Content>
+                            loading={loading && target === transaction.id}
+                            floated='right'>Delete Transaction</Button>
+                </Item.Content>
 
             </Segment>
         </Segment.Group>

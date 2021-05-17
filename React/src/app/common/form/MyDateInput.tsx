@@ -1,7 +1,8 @@
 import React from "react";
 import { useField } from "formik";
-import { Form, Label } from "semantic-ui-react";
+import { Form } from "semantic-ui-react";
 import DatePicker, { ReactDatePickerProps } from "react-datepicker";
+import { Alert } from '@material-ui/lab';
 
 export default function MyDateInput(props: Partial<ReactDatePickerProps>) {
     const [field, meta, helpers] = useField(props.name!);
@@ -14,7 +15,7 @@ export default function MyDateInput(props: Partial<ReactDatePickerProps>) {
                 onChange={value => helpers.setValue(value)}
             />
             {meta.touched && meta.error ? (
-                <Label basic color='red'>{meta.error}</Label>
+                <Alert severity="error">{meta.error}</Alert>
             ) : null}
         </Form.Field>
     )

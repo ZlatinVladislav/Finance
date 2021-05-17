@@ -1,6 +1,7 @@
 import React from "react";
 import { useField } from "formik";
-import { Form, Label } from "semantic-ui-react";
+import { Form } from "semantic-ui-react";
+import { Alert } from '@material-ui/lab';
 
 interface Props {
     placeholder: string;
@@ -16,7 +17,7 @@ export default function MyTextArea(props: Props) {
             <label>{props.label}</label>
             <textarea {...field}{...props}/>
             {meta.touched && meta.error ? (
-                <Label basic color='red'>{meta.error}</Label>
+                <Alert severity="error">{meta.error}</Alert>
             ) : null}
         </Form.Field>
     )

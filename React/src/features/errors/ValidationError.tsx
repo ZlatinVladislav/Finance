@@ -1,5 +1,6 @@
 import React from "react";
 import { Message } from "semantic-ui-react";
+import { Alert, AlertTitle } from "@material-ui/lab"
 
 interface Props {
     errors: any;
@@ -7,14 +8,14 @@ interface Props {
 
 export default function ValidationError({errors}: Props) {
     return (
-        <Message error>
+        <Alert severity="error">
             {errors && (
-                <Message.List>
+                <AlertTitle>
                     {errors.map((err: any, i:any) => (
                         <Message.Item key={i}>{err}</Message.Item>
                     ))}
-                </Message.List>
+                </AlertTitle>
             )}
-        </Message>
+        </Alert>
     )
 }

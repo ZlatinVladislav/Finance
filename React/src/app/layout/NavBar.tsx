@@ -23,7 +23,7 @@ export default observer(function NavBar() {
                     <Button component={NavLink} to='/createTransaction' style={{backgroundColor: 'rgba(76,255,0,0.61)'}}>Create Transaction</Button>
                 </MenuItem>
                 <MenuItem className={classes.positionRight}>
-                    <Avatar src={user?.image || '/assets/user.png'} style={{float: 'inline-end',width:'40px',height:'auto'}}/>
+                    <Avatar src={user?.image || '/assets/user.png'} style={{float: 'inline-end',width:'35px',height:'auto'}}/>
                     <InputLabel id="demo-controlled-open-select-label">{user?.displayName}</InputLabel>
                     <Select>
                         <Container>

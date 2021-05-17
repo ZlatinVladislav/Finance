@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { Button, Header, Segment } from "semantic-ui-react";
+// import { Button, Header, Segment } from "semantic-ui-react";
 import axios from 'axios';
 import ValidationError from "./ValidationError";
+import { useStyles } from "../../assets/pages";
+import { Button, Typography, Container, ButtonGroup } from "@material-ui/core"
 
 export default function TestErrors() {
+    const classes = useStyles();
     const baseUrl = 'https://localhost:44303/api/'
     const [errors, setErros] = useState(null);
 
@@ -33,17 +36,17 @@ export default function TestErrors() {
 
     return (
         <>
-            <Header as='h1' content='Test Error component'/>
-            <Segment>
-                <Button.Group widths='7'>
-                    <Button onClick={handleNotFound} content='Not Found' basic primary/>
-                    <Button onClick={handleBadRequest} content='Bad Request' basic primary/>
-                    <Button onClick={handleValidationError} content='Validation Error' basic primary/>
-                    <Button onClick={handleServerError} content='Server Error' basic primary/>
-                    <Button onClick={handleUnauthorised} content='Unauthorised' basic primary/>
-                    <Button onClick={handleBadGuid} content='Bad Guid' basic primary/>
-                </Button.Group>
-            </Segment>
+            <Typography variant='h2' className={classes.alignCenter}>Test Error component</Typography>
+            <Container className={classes.alignCenter}>
+                <ButtonGroup color="primary" aria-label="outlined primary button group">
+                    <Button onClick={handleNotFound}>Not Found</Button>
+                    <Button onClick={handleBadRequest}>Bad Request</Button>
+                    <Button onClick={handleValidationError}>Validation Error</Button>
+                    <Button onClick={handleServerError}>Server Error</Button>
+                    <Button onClick={handleUnauthorised}>Unauthorised</Button>
+                    <Button onClick={handleBadGuid}>Bad Guid</Button>
+                </ButtonGroup>
+            </Container>
             {errors &&
             <ValidationError errors={errors}/>
             }

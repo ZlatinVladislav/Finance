@@ -1,19 +1,27 @@
 import React from "react";
-import { Button, Header, Icon, Segment } from "semantic-ui-react";
+import { Button, Typography, Container } from "@material-ui/core"
 import { Link } from "react-router-dom";
+import { useStyles } from "../../assets/pages";
+import SearchIcon from '@material-ui/icons/Search';
+
 
 export default function NotFound() {
+    const classes = useStyles();
+
     return (
-        <Segment placeholder>
-            <Header icon>
-                <Icon name='search'/>
+        <Container className={classes.alignCenter}>
+            <SearchIcon className={classes.searchIcon} />
+            <Typography variant="h6"
+                        color="inherit"
+                        className={classes.alignCenter}>
                 Not found recheck please and try again
-            </Header>
-            <Segment.Inline>
-                <Button as={Link} to='/transactions' primary>
+            </Typography>
+            <Container>
+                <Button component={Link} to='/transactions' color="primary" variant="contained">
                     Return to transactions page
                 </Button>
-            </Segment.Inline>
-        </Segment>
+            </Container>
+        </Container>
     )
 }
+
