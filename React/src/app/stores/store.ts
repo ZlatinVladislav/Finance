@@ -3,7 +3,6 @@ import { createContext, useContext } from "react";
 import CommonStore from "./commonStore";
 import UserStore from "./userStore";
 import ModalStore from "./modalStore";
-import { TransactionType } from "../models/transactionType";
 import TransactionTypeStore from "./transactionTypeStore";
 import UserProfileStore from "./userProfileStore";
 

@@ -3,13 +3,9 @@ import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
 import { store } from "./store";
 import { history } from "../../index";
-import { useClearBrowserCache } from 'react-clear-browser-cache';
-import { Transaction } from "../models/transaction";
-import TransactionStore from "./transactionStore";
 
 export default class UserStore {
     user: User | null = null;
-    transactionStore: TransactionStore | null = null;
 
     constructor() {
         makeAutoObservable(this);

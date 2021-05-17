@@ -1,4 +1,3 @@
-import { Profiler } from "inspector";
 import { makeAutoObservable, runInAction } from "mobx";
 import { Photo, UserProfile } from "../models/profile";
 import agent from "../api/agent";

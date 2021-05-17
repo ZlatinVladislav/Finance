@@ -1,8 +1,7 @@
 import { makeAutoObservable, reaction, runInAction } from "mobx";
 import agent from "../api/agent";
 import { TransactionType, TransactionTypeFormValues } from "../models/transactionType";
-import { Transaction, TransactionFormValues } from "../models/transaction";
-import { PaginatedResult, Pagination, PagingParams } from "../models/pagination";
+import { Pagination, PagingParams } from "../models/pagination";
 
 export default class TransactionTypeStore {
     transactionTypeRegistry = new Map<string, TransactionType>();

@@ -15,7 +15,6 @@ export default observer(function UserProfilePhotos({userProfile}: Props) {
             isCurrentUser,
             uploadPhoto,
             uploading,
-            loadUserProfile,
             setMainPhoto,
             loading,
             deletePhoto
