@@ -1,15 +1,18 @@
-import { Button, Grid, Icon, Item, Label, Segment } from "semantic-ui-react";
+import { Icon, Item, Label, Segment } from "semantic-ui-react";
+import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import React, { SyntheticEvent, useState } from "react";
+import React from "react";
 import { Transaction } from "../../../app/models/transaction";
 import { useStore } from "../../../app/stores/store";
 import { format } from 'date-fns';
+import { useStyles } from "../../../assets/pages";
 
 interface Props {
     transaction: Transaction
 }
 
 export default function TransactionListItem({transaction}: Props) {
+    const classes = useStyles();
     const {userStore: {user}} = useStore();
 
     return (
@@ -41,11 +44,15 @@ export default function TransactionListItem({transaction}: Props) {
                     <Icon name='calculator'/>{transaction.transactionStatus ? (<span>Income</span>) : (
                     <span>Outcome</span>)}
                 </span>
-                <Button as={Link} to={`/transactions/${transaction.id}`}
-                        color='teal'
-                        floated='right'
-                        content='View'
-                />
+                <Button component={Link} to={`/transactions/${transaction.id}`}
+                      className={classes.backgroundButtonColorTeal}
+                        variant="contained"
+                        style={{
+                             display: "flex",
+                            // justifyContent: "flex-end"
+                        }}
+
+                >View</Button>
             </Segment>
         </Segment.Group>
     )

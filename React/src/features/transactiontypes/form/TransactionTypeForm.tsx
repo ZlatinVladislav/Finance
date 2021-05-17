@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Button, Header, Label, Segment } from "semantic-ui-react";
+import { Button, Header,  Segment } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
 import { Link, useHistory, useParams } from "react-router-dom";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { v4 as uuid } from 'uuid';
-import { ErrorMessage, Form, Formik } from "formik";
+import {  Form, Formik } from "formik";
 import * as Yup from 'yup'
 import MyTextInput from "../../../app/common/form/MyTextInput";
-import { TransactionType, TransactionTypeFormValues } from "../../../app/models/transactionType";
-import { TransactionFormValues } from "../../../app/models/transaction";
+import {  TransactionTypeFormValues } from "../../../app/models/transactionType";
 
 export default observer(function TransactionForm() {
     const history = useHistory();
@@ -17,7 +16,6 @@ export default observer(function TransactionForm() {
     const {
         createTransactionType,
         updateTransactionType,
-        loading,
         loadTransactionTypes,
         loadingInitial
     } = transactionTypeStore;

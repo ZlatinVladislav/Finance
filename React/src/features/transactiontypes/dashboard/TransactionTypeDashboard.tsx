@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Loader } from "semantic-ui-react";
+import { CircularProgress, Container} from "@material-ui/core"
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
-import LoadingComponent from "../../../app/layout/LoadingComponent";
 import TransactionTypeLists from "./TransactionTypeLists";
 import TransactionTypeButton from "./TransactionTypeFilters";
 import { PagingParams } from "../../../app/models/pagination";
 import TransactionListItemPlaceholder from "../../transactions/dashboard/TransactionListItemPlaceholder";
 import InfiniteScroll from "react-infinite-scroller";
-import TransactionList from "../../transactions/dashboard/TransactionList";
+import { useStyles } from "../../../assets/pages";
 
 export default observer(function TransactionTypeDashboard() {
+    const classes = useStyles();
     const {transactionTypeStore} = useStore();
     const {
         transactionTypeRegistry,
@@ -34,11 +34,9 @@ export default observer(function TransactionTypeDashboard() {
         }
     }, [transactionTypeRegistry.size, pagingParams,loadTransactionTypes]);
 
-   // if (transactionTypeStore.loadingInitial) return <LoadingComponent content='Loading transaction types...'/>
-
     return (
-        <Grid>
-            <Grid.Column width='10'>
+        <Container>
+            <Container>
                 {transactionTypeStore.loadingInitial && !loadingNext ? (
                         <>
                             <TransactionListItemPlaceholder/>
@@ -51,13 +49,14 @@ export default observer(function TransactionTypeDashboard() {
                         <TransactionTypeLists/>
                     </InfiniteScroll>
                 }
-            </Grid.Column>
-            <Grid.Column width='6'>
+            </Container>
+            <Container >
                 <TransactionTypeButton/>
-            </Grid.Column>
-            <Grid.Column width={10}>
-                <Loader active={loadingNext}/>
-            </Grid.Column>
-        </Grid>
+            </Container>
+            <Container className={classes.alignCenter}>
+                {loadingNext?
+                <CircularProgress/>:false}
+            </Container>
+        </Container>
     );
 })

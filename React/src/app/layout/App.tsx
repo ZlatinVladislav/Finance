@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from "react";
-import { Container } from "semantic-ui-react";
+import { Container } from "@material-ui/core";
 import NavBar from "./NavBar";
 import TransactionDashboard from "../../features/transactions/dashboard/TransactionDashboard";
 import { observer } from "mobx-react-lite";
@@ -11,7 +11,6 @@ import TestErrors from "../../features/errors/TestError";
 import { ToastContainer } from "react-toastify";
 import NotFound from "../../features/errors/NotFound";
 import ServerError from "../../features/errors/ServerError";
-import LogInForm from "../../features/users/LogInForm";
 import { useStore } from "../stores/store";
 import LoadingComponent from "./LoadingComponent";
 import ModalContainer from "../common/modals/modalContainer";
@@ -57,7 +56,6 @@ function App() {
                                 <PrivateRoute path='/userProfile/:userName' component={UserProfilePage}/>
                                 <Route path='/error' component={TestErrors}/>
                                 <Route path='/server-error' component={ServerError}/>
-                                {/*<Route path='/login' component={LogInForm}/>*/}
                                 <Route component={NotFound}/>
                             </Switch>
                         </Container>

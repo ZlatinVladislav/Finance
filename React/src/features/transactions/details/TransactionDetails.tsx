@@ -1,14 +1,15 @@
 import React, { useEffect } from "react";
-import { Grid } from "semantic-ui-react";
+import { Container } from "@material-ui/core";
 import { useStore } from "../../../app/stores/store";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import TransactionDetailedHeader from "./TransactionDetailedHeader";
 import TransactionDetailedInfo from "./TransactionDetailedInfo";
-import TransactionDetailedSidebar from "./TransactionDetailedSidebar";
+import { useStyles } from "../../../assets/pages";
 
 export default observer(function TransactionDetails() {
+    const classes = useStyles();
     const {transactionStore} = useStore();
     const {selectedTransaction: transaction, loadTransactions, loadingInitial} = transactionStore;
     const {id} = useParams<{ id: string }>();
@@ -22,14 +23,9 @@ export default observer(function TransactionDetails() {
     if (loadingInitial || !transaction) return <LoadingComponent/>;
 
     return (
-        <Grid>
-            <Grid.Column width={10}>
+        <Container maxWidth='md' className={classes.alignLeft} >
                 <TransactionDetailedHeader transaction={transaction}/>
                 <TransactionDetailedInfo transaction={transaction}/>
-            </Grid.Column>
-            <Grid.Column width={6}>
-                <TransactionDetailedSidebar/>
-            </Grid.Column>
-        </Grid>
+        </Container>
     )
 })

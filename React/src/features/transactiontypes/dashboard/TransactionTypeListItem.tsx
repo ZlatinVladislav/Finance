@@ -1,4 +1,4 @@
-import { Button, Grid, Icon, Item, Label, Segment } from "semantic-ui-react";
+import { Button, Item, Segment } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import React, { SyntheticEvent, useState } from "react";
 import { useStore } from "../../../app/stores/store";
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function TransactionTypeListItem({transactionType}: Props) {
-    const {transactionTypeStore: { loading,deleteTransactionType}, userStore: {user, logout}} = useStore();
+    const {transactionTypeStore: { loading,deleteTransactionType}} = useStore();
     const [target, setTarget] = useState('');
     function handleTransactionTypeDelete(event: SyntheticEvent<HTMLButtonElement>, id: string) {
         setTarget(event.currentTarget.name);

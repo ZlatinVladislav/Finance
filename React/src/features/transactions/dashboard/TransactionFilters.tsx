@@ -1,28 +1,31 @@
 import React from "react";
 import Calendar from "react-calendar";
-import { Header, Menu } from "semantic-ui-react";
+import { Typography, MenuItem, Container } from "@material-ui/core";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../../app/stores/store";
+import { useStyles } from "../../../assets/pages";
+
 
 export default observer(function TransactionFilters() {
+    const classes = useStyles();
     const {transactionStore: {predicate, setPredicate}} = useStore();
     return (
         <>
-            <Menu vertical size='large' style={{width: '100%', marginTop: 25}}>
-                <Header icon='filter' attached color='teal' content='Filters'/>
-                <Menu.Item
-                    content='All Transactions'
-                    active={predicate.has('all')}
+            <Container className={classes.backgroundColorWhite}>
+                <Typography variant='h3'>Filters</Typography>
+                <MenuItem
+                    disabled={predicate.has('all')}
                     onClick={() => setPredicate('all', 'true')}
-                />
-                <Menu.Item content="Income transactions"
-                           active={predicate.get('transactionStatus')===true}
-                           onClick={() => setPredicate('transactionStatusIncome', 'true')}/>
-                <Menu.Item content="Outcome transactions"
-                           active={predicate.get('transactionStatus')===false}
-                           onClick={() => setPredicate('transactionStatusOutcome', 'false')}/>
-            </Menu>
-            <Header/>
+                >All Transactions</MenuItem>
+                <MenuItem
+                    disabled={predicate.get('transactionStatus') === true}
+                    onClick={() => setPredicate('transactionStatusIncome', 'true')}>
+                    Income transactions</MenuItem>
+                <MenuItem disabled={predicate.get('transactionStatus') === false}
+                          onClick={() => setPredicate('transactionStatusOutcome', 'false')}>Outcome
+                    transactions</MenuItem>
+            </Container>
+            <Typography style={{marginBottom:'20px'}}/>
             <Calendar
                 onChange={(date => setPredicate('startDate', date as Date))}
                 value={predicate.get('startDate') || new Date()}

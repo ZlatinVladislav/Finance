@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Button, Grid, Loader } from "semantic-ui-react";
+import { CircularProgress, Container } from "@material-ui/core";
 import TransactionList from "./TransactionList";
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
-import LoadingComponent from "../../../app/layout/LoadingComponent";
 import TransactionFilters from "./TransactionFilters";
 import { PagingParams } from "../../../app/models/pagination";
 import InfiniteScroll from "react-infinite-scroller";
 import TransactionListItemPlaceholder from "./TransactionListItemPlaceholder";
+import { useStyles } from "../../../assets/pages";
 
 export default observer(function TransactionDashboard() {
     const {transactionStore} = useStore();
+    const classes = useStyles();
     const {
         loadTransactions,
         transactionRegistry,
@@ -33,11 +34,9 @@ export default observer(function TransactionDashboard() {
         }
     }, [transactionRegistry.size, loadTransactions, pagingParams]);
 
-    // if (transactionStore.loadingInitial && !loadingNext) return <LoadingComponent content='Loading transactions...'/>
-
     return (
-        <Grid>
-            <Grid.Column width='10'>
+        <Container>
+            <Container>
                 {transactionStore.loadingInitial && !loadingNext ? (
                         <>
                             <TransactionListItemPlaceholder/>
@@ -48,16 +47,17 @@ export default observer(function TransactionDashboard() {
                                     hasMore={!loadingNext && !!pagination && pagination.currentPage < pagination.totalPages}
                                     initialLoad={false}>
                         <TransactionList/>
+                        <Container className={classes.alignCenter}>
+                            {loadingNext ?
+                                <CircularProgress/> : false}
+                        </Container>
                     </InfiniteScroll>
                 }
-            </Grid.Column>
-            <Grid.Column width='6'>
+            </Container>
+            <Container className={classes.positionRight}>
                 <TransactionFilters/>
-            </Grid.Column>
-            <Grid.Column width={10}>
-                <Loader active={loadingNext}/>
-            </Grid.Column>
-        </Grid>
+            </Container>
+        </Container>
     );
 })
   
