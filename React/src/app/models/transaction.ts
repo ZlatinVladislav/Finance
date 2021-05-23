@@ -1,4 +1,5 @@
 import { UserProfile } from "./profile";
+import { Bank } from "./bank";
 
 export interface Transaction {
     id: string;
@@ -7,7 +8,8 @@ export interface Transaction {
     dateTransaction: Date | null;
     transactionType: string;
     isCanceled: boolean;
-    userProfile?: UserProfile[]
+    userProfile?: UserProfile[];
+    bankDto?:Bank[];
 }
 
 export class TransactionFormValues {
@@ -17,6 +19,8 @@ export class TransactionFormValues {
     dateTransaction: Date | null = null;
     transactionType: string = '';
     isCanceled: boolean = false;
+    userProfile?: UserProfile[]=undefined;
+    bankDto?:Bank[]=undefined;
     error: null
 
     constructor(transaction?: TransactionFormValues) {
@@ -26,6 +30,8 @@ export class TransactionFormValues {
             this.dateTransaction = transaction.dateTransaction;
             this.transactionType = transaction.transactionType;
             this.isCanceled = transaction.isCanceled;
+            this.userProfile = transaction.userProfile;
+            this.bankDto = transaction.bankDto;
         }
     }
 }

@@ -19,6 +19,8 @@ import TransactionTypeForm from "../../features/transactiontypes/form/Transactio
 import UserProfilePage from "../../features/profiles/UserProfilePage";
 import PrivateRoute from "./PrivateRoute";
 import "./styles.css";
+import BankDashboard from "../../features/banks/dashboard/BankDashboard";
+import TransactionBankForm from "../../features/transactions/form/TransactionBankForm";
 
 function App() {
     const location = useLocation();
@@ -48,6 +50,9 @@ function App() {
                             <Switch>
                                 <PrivateRoute exact path='/transactions' component={TransactionDashboard}/>
                                 <PrivateRoute exact path='/transactionTypes' component={TransactionTypeDashboard}/>
+                                <PrivateRoute exact path='/banks' component={BankDashboard}/>
+                                <PrivateRoute key={location.key} path={['/manageBankTransaction/:id']}
+                                              component={TransactionBankForm}/>
                                 <PrivateRoute key={location.key} path={['/createTransactionType', '/manageTransactionType/:id']}
                                        component={TransactionTypeForm}/>
                                 <PrivateRoute key={location.key} path={['/createTransaction', '/manageTransaction/:id']}

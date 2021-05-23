@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CircularProgress, Container} from "@material-ui/core"
+import { CircularProgress, Container, Grid } from "@material-ui/core"
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
 import TransactionTypeLists from "./TransactionTypeLists";
@@ -7,10 +7,8 @@ import TransactionTypeButton from "./TransactionTypeFilters";
 import { PagingParams } from "../../../app/models/pagination";
 import TransactionListItemPlaceholder from "../../transactions/dashboard/TransactionListItemPlaceholder";
 import InfiniteScroll from "react-infinite-scroller";
-import { useStyles } from "../../../assets/pages";
 
 export default observer(function TransactionTypeDashboard() {
-    const classes = useStyles();
     const {transactionTypeStore} = useStore();
     const {
         transactionTypeRegistry,
@@ -32,11 +30,11 @@ export default observer(function TransactionTypeDashboard() {
         if (transactionTypeRegistry.size <= 1) {
             loadingTransactionTypes();
         }
-    }, [transactionTypeRegistry.size, pagingParams,loadTransactionTypes]);
+    }, [transactionTypeRegistry.size, pagingParams, loadTransactionTypes]);
 
     return (
-        <Container>
-            <Container>
+        <Grid container>
+            <Grid item xs={9}>
                 {transactionTypeStore.loadingInitial && !loadingNext ? (
                         <>
                             <TransactionListItemPlaceholder/>
@@ -47,16 +45,16 @@ export default observer(function TransactionTypeDashboard() {
                                     hasMore={!loadingNext && !!pagination && pagination.currentPage < pagination.totalPages}
                                     initialLoad={false}>
                         <TransactionTypeLists/>
+                        <Container>
+                            {loadingNext ?
+                                <CircularProgress/> : false}
+                        </Container>
                     </InfiniteScroll>
                 }
-            </Container>
-            <Container >
+            </Grid>
+            <Grid item xs={2} style={{paddingLeft: "20px"}}>
                 <TransactionTypeButton/>
-            </Container>
-            <Container className={classes.alignCenter}>
-                {loadingNext?
-                <CircularProgress/>:false}
-            </Container>
-        </Container>
+            </Grid>
+        </Grid>
     );
 })

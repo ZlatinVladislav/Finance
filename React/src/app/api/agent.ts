@@ -7,6 +7,7 @@ import { User, UserFormValues } from "../models/user";
 import { TransactionType, TransactionTypeFormValues } from "../models/transactionType";
 import { Photo, UserProfile } from "../models/profile";
 import { PaginatedResult } from "../models/pagination";
+import { Bank, BankFormValues } from "../models/bank";
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -86,11 +87,20 @@ const Transacions = {
 }
 
 const TransactionTypes = {
-    list: (params: URLSearchParams) => axios.get<PaginatedResult<TransactionType[]>>('/TransactionType',{params}).then(responseBody),
+    list: (params: URLSearchParams) => axios.get<PaginatedResult<TransactionType[]>>('/TransactionType', {params}).then(responseBody),
     details: (id: string) => request.get<TransactionType>(`/TransactionType/${id}`),
     create: (transactionType: TransactionTypeFormValues) => request.post<void>('/TransactionType', transactionType),
     update: (transactionType: TransactionTypeFormValues) => request.put<void>(`/TransactionType/${transactionType.id}`, transactionType),
     delete: (id: string) => request.del<void>(`/TransactionType/${id}`),
+}
+
+const Banks = {
+    list: () => axios.get<Bank[]>('/Bank'),
+    assignBank:(bankId:string,transactionId:string)=>request.post<Bank>(`/Bank/${bankId}/transaction/${transactionId}`),
+    details: (id: string) => request.get<Bank>(`/Bank/${id}`),
+    // create: (transactionType: TransactionTypeFormValues) => request.post<void>('/TransactionType', transactionType),
+    // update: (transactionType: TransactionTypeFormValues) => request.put<void>(`/TransactionType/${transactionType.id}`, transactionType),
+    // delete: (id: string) => request.del<void>(`/TransactionType/${id}`),
 }
 
 const Account = {
@@ -113,7 +123,7 @@ const UserProfiles = {
 }
 
 const agent = {
-    Transacions, Account, TransactionTypes, UserProfiles
+    Transacions, Account, TransactionTypes, UserProfiles, Banks
 }
 
 export default agent;

@@ -33,11 +33,32 @@ export const useStyles = makeStyles({
     },
     navBar: {
         backgroundImage: "linear-gradient(135deg, rgb(24, 42, 115) 0%, rgb(33, 138, 174) 69%, rgb(32, 167, 172) 89%)",
-        height: 55
+        display: 'flex', justifyContent: 'space-between'
+
+    },
+    root: {
+        '& .super-app-theme--header': {
+            backgroundColor: "red",
+            '&:hover': {
+                backgroundColor: "red",
+            },
+        },
+    },
+    overrides: {
+        MuiToolbar: {
+            regular: {
+                '@media (min-width: 600px)': {
+                    minHeight: "0px"
+                }
+            }
+        },
     },
     positionRight: {
 
-        marginBottom: "10px"
+    },
+    filter: {
+        paddingLeft:"20px",
+        marginTop: "36px"
     },
     alignLeft: {
         alignContent: 'left',
@@ -50,5 +71,8 @@ export const useStyles = makeStyles({
         width: 'auto',
         height: '50',
         color: 'white',
+    },
+    table: {
+        minWidth: 650,
     }
 });

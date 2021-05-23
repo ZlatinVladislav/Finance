@@ -11,14 +11,14 @@ import { useStyles } from "../../../assets/pages";
 export default observer(function TransactionDetails() {
     const classes = useStyles();
     const {transactionStore} = useStore();
-    const {selectedTransaction: transaction, loadTransactions, loadingInitial} = transactionStore;
+    const {selectedTransaction: transaction, loadTransactions, loadingInitial,transactionRegistry} = transactionStore;
     const {id} = useParams<{ id: string }>();
 
     useEffect(() => {
         if (id) {
             loadTransactions(id);
         }
-    }, [id, loadTransactions]);
+    }, [id, loadTransactions,transactionRegistry]);
 
     if (loadingInitial || !transaction) return <LoadingComponent/>;
 

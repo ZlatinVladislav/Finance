@@ -7,7 +7,9 @@ import { format } from "date-fns";
 import { useStore } from "../../../app/stores/store";
 
 const activityImageStyle = {
-    filter: 'brightness(50%)'
+    filter: 'brightness(50%)',
+    height: '400px',
+    width: '100%',
 };
 
 const activityImageTextStyle = {
@@ -55,7 +57,7 @@ export default observer(function ActivityDetailedHeader({transaction}: Props) {
                                 <p>{format(transaction.dateTransaction!, 'dd MMM yyyy')}</p>
                                 <p>
                                     Created by <strong><Link
-                                    to={`/profiles/${user?.displayName}`}>{user?.displayName}</Link></strong>
+                                    to={`/userprofile/${user?.displayName}`}>{user?.displayName}</Link></strong>
                                 </p>
                             </Item.Content>
                         </Item>
@@ -84,6 +86,10 @@ export default observer(function ActivityDetailedHeader({transaction}: Props) {
                             name={transaction.id}
                             loading={loading && target === transaction.id}
                             floated='right'>Delete Transaction</Button>
+                    <Button disabled={transaction.isCanceled} as={Link} to={`/manageBankTransaction/${transaction.id}`}
+                            color='blue' floated='right'>
+                        Assign Bank
+                    </Button>
                 </Item.Content>
 
             </Segment>

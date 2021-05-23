@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CircularProgress, Container } from "@material-ui/core";
+import { CircularProgress, Container,Grid } from "@material-ui/core";
 import TransactionList from "./TransactionList";
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
@@ -35,8 +35,8 @@ export default observer(function TransactionDashboard() {
     }, [transactionRegistry.size, loadTransactions, pagingParams]);
 
     return (
-        <Container>
-            <Container>
+        <Grid container>
+            <Grid item xs={7}>
                 {transactionStore.loadingInitial && !loadingNext ? (
                         <>
                             <TransactionListItemPlaceholder/>
@@ -53,11 +53,11 @@ export default observer(function TransactionDashboard() {
                         </Container>
                     </InfiniteScroll>
                 }
-            </Container>
-            <Container className={classes.positionRight}>
+            </Grid>
+            <Grid item xs={5} className={classes.filter}>
                 <TransactionFilters/>
-            </Container>
-        </Container>
+            </Grid>
+        </Grid>
     );
 })
   

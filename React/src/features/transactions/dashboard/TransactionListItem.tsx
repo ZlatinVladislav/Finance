@@ -48,10 +48,9 @@ export default function TransactionListItem({transaction}: Props) {
                       className={classes.backgroundButtonColorTeal}
                         variant="contained"
                         style={{
-                             display: "flex",
-                            // justifyContent: "flex-end"
+                             marginTop:'10px',
+                             display: "flex"
                         }}
-
                 >View</Button>
             </Segment>
         </Segment.Group>

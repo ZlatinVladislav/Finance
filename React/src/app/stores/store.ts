@@ -5,10 +5,12 @@ import UserStore from "./userStore";
 import ModalStore from "./modalStore";
 import TransactionTypeStore from "./transactionTypeStore";
 import UserProfileStore from "./userProfileStore";
+import BankStore from "./bankStore";
 
 interface Store {
     transactionTypeStore:TransactionTypeStore
     transactionStore: TransactionStore
+    bankStore:BankStore
     commonStore: CommonStore
     userStore: UserStore
     modalStore: ModalStore
@@ -21,7 +23,8 @@ export const store: Store = {
     commonStore: new CommonStore(),
     userStore: new UserStore(),
     modalStore: new ModalStore(),
-    userProfileStore:new UserProfileStore()
+    userProfileStore:new UserProfileStore(),
+    bankStore:new BankStore()
 }
 
 export const StoreContext = createContext(store);
