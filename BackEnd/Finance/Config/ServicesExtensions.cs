@@ -70,16 +70,14 @@ namespace Finance.Config
 
             services.AddAuthorization(opt =>
             {
-                opt.AddPolicy("TransactionByIdRequirement", policy => { policy.Requirements.Add(new TransactionByIdRequirement()); });
-               // opt.AddPolicy("GetListTransactionRequirement", policy => { policy.Requirements.Add(new GetListTransactionRequirement()); });
+                opt.AddPolicy("TransactionByIdRequirement",
+                    policy => { policy.Requirements.Add(new TransactionByIdRequirement()); });
             });
             services.AddTransient<IAuthorizationHandler, IsUserRequirementHandler>();
             services.AddScoped<TokenService>();
-            
+
             services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
-            
-            //pagination heager
-            
+
             return services;
             // we can add other services here
         }

@@ -20,5 +20,6 @@ namespace Finance.Application.DtoModels.Transaction
         public DateTime? DateTransaction { get; set; }
         
         public UserProfileDto? UserProfileDto { get; set; }
+        public Domain.Models.Bank? BankDto { get; set; }
     }
 }

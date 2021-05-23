@@ -9,14 +9,14 @@ namespace Finance.Domain.ConfigTable
         public void Configure(EntityTypeBuilder<Transaction> builder)
         {
             builder.Property(x => x.Money).HasColumnType("float");
-            // builder.Property(x => x.RowVersion).IsRowVersion();
             builder.HasOne(x => x.TransactionType)
                 .WithMany(x => x.Transactions)
                 .HasForeignKey(x => x.TransactionTypeId)
                 .OnDelete(DeleteBehavior.SetNull); 
+            
             builder.HasOne(x => x.AppUser)
               .WithMany(x => x.Transactions)
-              .HasForeignKey(x => x.Id);
+              .HasForeignKey(x => x.AppUserId);
         }
     }
 }

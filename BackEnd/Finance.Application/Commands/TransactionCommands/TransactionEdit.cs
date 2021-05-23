@@ -4,6 +4,7 @@ using AutoMapper;
 using Finance.Application.DtoModels.Transaction;
 using Finance.Application.Validations;
 using Finance.Application.Validations.TransactionValidators;
+using Finance.Domain.Interfaces;
 using Finance.Domain.Interfaces.Base;
 using FluentValidation;
 using MediatR;
@@ -29,16 +30,20 @@ namespace Finance.Application.Commands.TransactionCommands
         {
             private readonly IBaseRepository<Domain.Models.Transaction> _transactionRepository;
             private readonly IMapper _mapper;
+            private readonly IAppUserRepository _appUserRepository;
 
-            public Handler(IBaseRepository<Domain.Models.Transaction> genericRepository, IMapper mapper)
+            public Handler(IBaseRepository<Domain.Models.Transaction> genericRepository, IMapper mapper,IAppUserRepository appUserRepository)
             {
                 _transactionRepository = genericRepository;
                 _mapper = mapper;
+                _appUserRepository = appUserRepository;
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var transactionModel = _mapper.Map<Domain.Models.Transaction>(request.TransactionDto);
+                var transactionModel = _mapper.Map<Domain.Models.Transaction>(request.TransactionDto); 
+                var user = await _appUserRepository.GetUser();
+                transactionModel.AppUser = user;
                 await _transactionRepository.Put(transactionModel);
                 var result = await _transactionRepository.SaveChanges();
                 if (!result) return Result<Unit>.Failure("Failed to update transaction.");

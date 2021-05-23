@@ -90,6 +90,35 @@ namespace Finance.Infrastructure.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Finance.Domain.Models.Bank", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Banks");
+                });
+
+            modelBuilder.Entity("Finance.Domain.Models.BankTransaction", b =>
+                {
+                    b.Property<Guid?>("BankId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("TransactionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("BankId", "TransactionId");
+
+                    b.HasIndex("TransactionId");
+
+                    b.ToTable("BankTransaction");
+                });
+
             modelBuilder.Entity("Finance.Domain.Models.Photo", b =>
                 {
                     b.Property<string>("Id")
@@ -132,7 +161,7 @@ namespace Finance.Infrastructure.Data.Migrations
                     b.Property<bool>("TransactionStatus")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("TransactionTypeId")
+                    b.Property<Guid?>("TransactionTypeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -151,7 +180,7 @@ namespace Finance.Infrastructure.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("TransactionTypes")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(20)");
 
                     b.HasKey("Id");
 
@@ -289,6 +318,25 @@ namespace Finance.Infrastructure.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Finance.Domain.Models.BankTransaction", b =>
+                {
+                    b.HasOne("Finance.Domain.Models.Bank", "Bank")
+                        .WithMany("Transactions")
+                        .HasForeignKey("BankId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Finance.Domain.Models.Transaction", "Transaction")
+                        .WithMany("Banks")
+                        .HasForeignKey("TransactionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bank");
+
+                    b.Navigation("Transaction");
+                });
+
             modelBuilder.Entity("Finance.Domain.Models.Photo", b =>
                 {
                     b.HasOne("Finance.Domain.Models.AppUser", null)
@@ -305,8 +353,7 @@ namespace Finance.Infrastructure.Data.Migrations
                     b.HasOne("Finance.Domain.Models.TransactionType", "TransactionType")
                         .WithMany("Transactions")
                         .HasForeignKey("TransactionTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("AppUser");
 
@@ -369,6 +416,16 @@ namespace Finance.Infrastructure.Data.Migrations
                     b.Navigation("Photos");
 
                     b.Navigation("Transactions");
+                });
+
+            modelBuilder.Entity("Finance.Domain.Models.Bank", b =>
+                {
+                    b.Navigation("Transactions");
+                });
+
+            modelBuilder.Entity("Finance.Domain.Models.Transaction", b =>
+                {
+                    b.Navigation("Banks");
                 });
 
             modelBuilder.Entity("Finance.Domain.Models.TransactionType", b =>

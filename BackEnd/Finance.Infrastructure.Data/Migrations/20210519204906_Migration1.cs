@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Finance.Infrastructure.Data.Migrations
 {
-    public partial class PhotoAdded3 : Migration
+    public partial class Migration1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,11 +49,23 @@ namespace Finance.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Banks",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Banks", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TransactionType",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TransactionTypes = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    TransactionTypes = table.Column<string>(type: "VARCHAR(20)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -193,7 +205,7 @@ namespace Finance.Infrastructure.Data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Money = table.Column<double>(type: "float", nullable: true),
                     TransactionStatus = table.Column<bool>(type: "bit", nullable: false),
-                    TransactionTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TransactionTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsCanceled = table.Column<bool>(type: "bit", nullable: false),
                     DateTransaction = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
@@ -211,6 +223,30 @@ namespace Finance.Infrastructure.Data.Migrations
                         name: "FK_Transaction_TransactionType_TransactionTypeId",
                         column: x => x.TransactionTypeId,
                         principalTable: "TransactionType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BankTransaction",
+                columns: table => new
+                {
+                    BankId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TransactionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BankTransaction", x => new { x.BankId, x.TransactionId });
+                    table.ForeignKey(
+                        name: "FK_BankTransaction_Banks_BankId",
+                        column: x => x.BankId,
+                        principalTable: "Banks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BankTransaction_Transaction_TransactionId",
+                        column: x => x.TransactionId,
+                        principalTable: "Transaction",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -255,6 +291,11 @@ namespace Finance.Infrastructure.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BankTransaction_TransactionId",
+                table: "BankTransaction",
+                column: "TransactionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Photos_AppUserId",
                 table: "Photos",
                 column: "AppUserId");
@@ -288,13 +329,19 @@ namespace Finance.Infrastructure.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "BankTransaction");
+
+            migrationBuilder.DropTable(
                 name: "Photos");
 
             migrationBuilder.DropTable(
-                name: "Transaction");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "Banks");
+
+            migrationBuilder.DropTable(
+                name: "Transaction");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

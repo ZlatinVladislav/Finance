@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Finance.Application.DtoModels.Bank;
 using Finance.Application.DtoModels.Base;
 using Finance.Application.DtoModels.TransactionType;
 using Finance.Application.DtoModels.User;
@@ -23,5 +24,6 @@ namespace Finance.Application.DtoModels.Transaction
         public DateTime? DateTransaction { get; set; }
         
         public UserProfileDto? UserProfileDto { get; set; }
+        public ICollection<BankDto> BankDto { get; set; }
     }
 }

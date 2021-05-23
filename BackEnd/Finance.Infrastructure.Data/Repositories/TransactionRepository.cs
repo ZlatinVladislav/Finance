@@ -26,6 +26,8 @@ namespace Finance.Infrastructure.Data.Repositories
                 .Where(i=>i.AppUser.Id==id)
                 .Include(t=>t.TransactionType)
                 .Include(u=>u.AppUser)
+                .Include(b=>b.Banks)
+                .ThenInclude(bm=>bm.Bank)
                 .OrderByDescending(d=>d.DateTransaction)
                 .AsQueryable();
         }
@@ -43,6 +45,8 @@ namespace Finance.Infrastructure.Data.Repositories
             return await _dbSet
                 .Include(t=>t.TransactionType)
                 .Include(u=>u.AppUser)
+                .Include(b=>b.Banks)
+                .ThenInclude(bm=>bm.Bank)
                 .SingleOrDefaultAsync(x=>x.Id==id);
                 
         }
