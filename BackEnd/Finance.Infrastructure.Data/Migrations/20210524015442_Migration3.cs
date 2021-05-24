@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Finance.Infrastructure.Data.Migrations
 {
-    public partial class Migration1 : Migration
+    public partial class Migration3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -199,6 +199,24 @@ namespace Finance.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserDescriptions",
+                columns: table => new
+                {
+                    UserDescriptionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserDescriptions", x => x.UserDescriptionId);
+                    table.ForeignKey(
+                        name: "FK_UserDescriptions_AspNetUsers_UserDescriptionId",
+                        column: x => x.UserDescriptionId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Transaction",
                 columns: table => new
                 {
@@ -333,6 +351,9 @@ namespace Finance.Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Photos");
+
+            migrationBuilder.DropTable(
+                name: "UserDescriptions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

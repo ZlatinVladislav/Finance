@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Finance.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(FinanceDBContext))]
-    [Migration("20210519204906_Migration1")]
-    partial class Migration1
+    [Migration("20210524015442_Migration3")]
+    partial class Migration3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -189,6 +189,19 @@ namespace Finance.Infrastructure.Data.Migrations
                     b.ToTable("TransactionType");
                 });
 
+            modelBuilder.Entity("Finance.Domain.Models.UserDescription", b =>
+                {
+                    b.Property<string>("UserDescriptionId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserDescriptionId");
+
+                    b.ToTable("UserDescriptions");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -362,6 +375,17 @@ namespace Finance.Infrastructure.Data.Migrations
                     b.Navigation("TransactionType");
                 });
 
+            modelBuilder.Entity("Finance.Domain.Models.UserDescription", b =>
+                {
+                    b.HasOne("Finance.Domain.Models.AppUser", "User")
+                        .WithOne("UserDescription")
+                        .HasForeignKey("Finance.Domain.Models.UserDescription", "UserDescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -418,6 +442,8 @@ namespace Finance.Infrastructure.Data.Migrations
                     b.Navigation("Photos");
 
                     b.Navigation("Transactions");
+
+                    b.Navigation("UserDescription");
                 });
 
             modelBuilder.Entity("Finance.Domain.Models.Bank", b =>
