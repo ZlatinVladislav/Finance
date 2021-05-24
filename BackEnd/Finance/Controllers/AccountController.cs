@@ -1,15 +1,12 @@
-﻿using Finance.Application.DtoModels.User;
-using Finance.Domain.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Finance.Application.DtoModels.User;
 using Finance.Application.Interfaces;
-using Finance.Application.Services;
+using Finance.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Finance.Controllers
@@ -19,9 +16,9 @@ namespace Finance.Controllers
     [Route("/api/[controller]")]
     public class AccountController : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ITokenService _tokenService;
+        private readonly UserManager<AppUser> _userManager;
 
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
             ITokenService tokenService)
@@ -40,10 +37,7 @@ namespace Finance.Controllers
             if (user == null) return Unauthorized();
             var result = await _signInManager.CheckPasswordSignInAsync(user, logInDto.Password, false);
 
-            if (result.Succeeded)
-            {
-                return CreateUserObject(user);
-            }
+            if (result.Succeeded) return CreateUserObject(user);
 
             return Unauthorized();
         }
@@ -63,7 +57,7 @@ namespace Finance.Controllers
                 return ValidationProblem();
             }
 
-            var user = new AppUser()
+            var user = new AppUser
             {
                 DisplayName = registerDto.DisplayName,
                 Email = registerDto.Email,
@@ -72,10 +66,7 @@ namespace Finance.Controllers
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
-            if (result.Succeeded)
-            {
-                return CreateUserObject(user);
-            }
+            if (result.Succeeded) return CreateUserObject(user);
 
             return BadRequest("Error while creating user");
         }
@@ -84,7 +75,9 @@ namespace Finance.Controllers
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
-            var user = _userManager.Users.Include(p=>p.Photos).FirstOrDefault(x=>x.Email==User.FindFirstValue(ClaimTypes.Email));
+            var user = _userManager.Users
+                .Include(p => p.Photos)
+                .FirstOrDefault(x => x.Email == User.FindFirstValue(ClaimTypes.Email));
 
             return CreateUserObject(user);
         }

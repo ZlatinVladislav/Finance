@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using Finance.Application.DtoModels.Transaction;
 using Finance.Application.DtoModels.TransactionType;
 using Finance.Domain.Models;

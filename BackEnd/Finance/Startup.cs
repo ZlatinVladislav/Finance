@@ -1,4 +1,3 @@
-using Finance.Application;
 using Finance.Config;
 using Finance.Middleware;
 using Microsoft.AspNetCore.Builder;
@@ -20,16 +19,13 @@ namespace Finance
         }
 
         public void ConfigureServices(IServiceCollection services)
-        {        
-            services.AddApplicationLayer(_config);         
+        {
+            services.AddApplicationLayer(_config);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }      
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseSerilogRequestLogging();
 
@@ -41,23 +37,17 @@ namespace Finance
 
             app.UseSwagger();
 
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v2/swagger.json", "My API V1");
-            });        
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v2/swagger.json", "My API V1"); });
 
             app.UseRouting();
-            
+
             app.UseCors("CorsPolicy");
 
             app.UseAuthentication();
-            
+
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

@@ -15,12 +15,10 @@ namespace Finance.Domain.ConfigTable
             builder.HasOne(x => x.Transaction)
                 .WithMany(x => x.Banks)
                 .HasForeignKey(x => x.TransactionId);
-                // .OnDelete(DeleteBehavior.SetNull);
 
             builder.HasOne(x => x.Bank)
                 .WithMany(x => x.Transactions)
                 .HasForeignKey(x => x.BankId);
-            // .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

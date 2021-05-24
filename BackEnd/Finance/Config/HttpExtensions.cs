@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 
-
 namespace Finance.Config
 {
     public static class HttpExtensions

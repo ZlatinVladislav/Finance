@@ -1,6 +1,5 @@
-﻿using Finance.Domain.Models.Base;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using Finance.Domain.Models.Base;
 
 namespace Finance.Domain.Models
 {

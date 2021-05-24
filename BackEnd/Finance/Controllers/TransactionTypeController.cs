@@ -1,44 +1,48 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Finance.Application.Commands.TransactionTypeCommands;
+using Finance.Application.CQRS.Commands.TransactionTypeCommands;
+using Finance.Application.CQRS.Querries.TransactionType;
 using Finance.Application.DtoModels.TransactionType;
-using Finance.Application.Querries.Transaction;
-using Finance.Application.Querries.TransactionType;
-using Finance.Application.Services;
-using Microsoft.AspNetCore.Authorization;
+using Finance.Application.Services.Pagination;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Finance.Controllers
 {
-    public class TransactionTypeController: BaseApiController
+    public class TransactionTypeController : BaseApiController
     {
         [HttpGet]
-        public async Task<IActionResult> GetAllTransactions([FromQuery] TransactionTypeParams param)
+        public async Task<IActionResult> GetAllTransactionsTypePaged([FromQuery] TransactionTypeParams param)
         {
-            return HandlePageResult(await Mediator.Send(new TransactionTypeList.Query{Params = param}));
+            return HandlePageResult(await Mediator.Send(new TransactionTypeList.Query {Params = param}));
         }
         
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllTransactionsType()
+        {
+            return HandleResult(await Mediator.Send(new TransactionTypeListAll.Query{}));
+        }
+
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTransactionById(Guid id)
+        public async Task<IActionResult> GetTransactionTypeById(Guid id)
         {
             return HandleResult(await Mediator.Send(new TransactionTypeDetails.Query {Id = id}));
         }
-        
+
         [HttpPost]
-        public async Task<IActionResult> AddTransaction(TransactionTypeDto model)
+        public async Task<IActionResult> AddTransactionType(TransactionTypeDto model)
         {
             return HandleResult(await Mediator.Send(new TransactionTypeCreate.Command {TransactionTypeDto = model}));
         }
-        
+
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditTransaction(Guid id, TransactionTypeDto model)
+        public async Task<IActionResult> EditTransactionType(Guid id, TransactionTypeDto model)
         {
             model.Id = id;
             return HandleResult(await Mediator.Send(new TransactionTypeEdit.Command {TransactionTypeDto = model}));
         }
-        
+
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTransaction(Guid id)
+        public async Task<IActionResult> DeleteTransactionType(Guid id)
         {
             return HandleResult(await Mediator.Send(new TransactionTypeDelete.Command {Id = id}));
         }

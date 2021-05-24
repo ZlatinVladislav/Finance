@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Finance.Application.Photos;
+using Finance.Application.Services.Photos;
 using Microsoft.AspNetCore.Http;
 
 namespace Finance.Application.Interfaces

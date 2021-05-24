@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Finance.Middleware
+﻿namespace Finance.Middleware
 {
     public class AppException
     {
-        public AppException(int statusCode, string message, string details=null)
+        public AppException(int statusCode, string message, string details = null)
         {
             StatusCode = statusCode;
             Message = message;

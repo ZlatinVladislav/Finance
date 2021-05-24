@@ -6,7 +6,14 @@
         public TEntity Value { get; set; }
         public string Error { get; set; }
 
-        public static Result<TEntity> Success(TEntity value) => new Result<TEntity> { IsSuccess = true, Value = value };
-        public static Result<TEntity> Failure(string error) => new Result<TEntity> { IsSuccess = false, Error = error };
+        public static Result<TEntity> Success(TEntity value)
+        {
+            return new Result<TEntity> {IsSuccess = true, Value = value};
+        }
+
+        public static Result<TEntity> Failure(string error)
+        {
+            return new Result<TEntity> {IsSuccess = false, Error = error};
+        }
     }
 }

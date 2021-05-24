@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Finance.Application.DtoModels.User
+﻿namespace Finance.Application.DtoModels.User
 {
     public class LogInDto
     {

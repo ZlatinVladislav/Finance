@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using Finance.Domain.Models;
 using Finance.Infrastructure.Data.Context;
 using Finance.Infrastructure.Data.Context.SeedData;
@@ -7,11 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Serilog;
-using Serilog.Formatting.Json;
-using System;
-using System.Threading.Tasks;
 
 namespace Finance
 {
@@ -48,13 +46,14 @@ namespace Finance
             {
                 Log.CloseAndFlush();
             }
-
             await host.RunAsync();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+        private static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
                 .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+        }
     }
 }

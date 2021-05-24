@@ -1,9 +1,7 @@
-﻿using Finance.Domain.Models;
+﻿using Finance.Domain.ConfigTable;
+using Finance.Domain.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Reflection;
-using Finance.Domain.ConfigTable;
 
 namespace Finance.Infrastructure.Data.Context
 {
@@ -19,6 +17,7 @@ namespace Finance.Infrastructure.Data.Context
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Bank> Banks { get; set; }
         public DbSet<BankTransaction> TransactionBanks { get; set; }
+        public DbSet<UserDescription> UserDescriptions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,19 +25,13 @@ namespace Finance.Infrastructure.Data.Context
             modelBuilder.ApplyConfiguration(new TransactionConfig());
             modelBuilder.ApplyConfiguration(new BankTransactionConfig());
             modelBuilder.ApplyConfiguration(new TransactionTypeConfig());
-            // modelBuilder.Configurations.AddFromAssembly(typeof(FinanceDBContext).Assembly);
-            // modelBuilder.Entity<BankTransaction>()
-            //     .HasKey(lc => new { lc.BankId, lc.TransactionId });
-            // modelBuilder.Entity<BankTransaction>()
-            //     .Ignore(x => x.Id);
+            modelBuilder.ApplyConfiguration(new AppUserConfig());
+            modelBuilder.ApplyConfiguration(new UserDescriptionConfig());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                base.OnConfiguring(optionsBuilder);
-            }
+            if (!optionsBuilder.IsConfigured) base.OnConfiguring(optionsBuilder);
         }
     }
 }

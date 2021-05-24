@@ -1,7 +1,6 @@
-﻿using Finance.Domain.Models.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+using Finance.Domain.Models.Base;
 
 namespace Finance.Domain.Models
 {
@@ -16,6 +15,5 @@ namespace Finance.Domain.Models
         public virtual ICollection<BankTransaction> Banks { get; set; }
         public string AppUserId { get; set; }
         public virtual AppUser AppUser { get; set; }
-      
     }
 }

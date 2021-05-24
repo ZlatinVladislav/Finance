@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Text;
-using Finance.Application.Commands.TransactionCommands;
+using Finance.Application.CQRS.Commands.TransactionCommands;
+using Finance.Application.CQRS.Querries.Transaction;
 using Finance.Application.Interfaces;
-using Finance.Application.Photos;
-using Finance.Application.Querries.Transaction;
-using Finance.Application.Security;
-using Finance.Application.Services;
+using Finance.Application.Services.Photos;
+using Finance.Application.Services.Security;
+using Finance.Application.Services.Security.Base;
 using Finance.Domain.Models;
 using Finance.Infrastructure.Data.Context;
 using FluentValidation.AspNetCore;
@@ -32,10 +32,11 @@ namespace Finance.Config
             services.AddIoCService();
             services.AddSwaggerGen(c => { c.SwaggerDoc("v2", new OpenApiInfo {Title = "My API", Version = "v2"}); });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddControllers(otpions =>
+            
+            services.AddControllers(options =>
                 {
                     var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-                    otpions.Filters.Add(new AuthorizeFilter(policy));
+                    options.Filters.Add(new AuthorizeFilter(policy));
                 })
                 .AddNewtonsoftJson()
                 .AddFluentValidation(config =>
@@ -74,12 +75,10 @@ namespace Finance.Config
                     policy => { policy.Requirements.Add(new TransactionByIdRequirement()); });
             });
             services.AddTransient<IAuthorizationHandler, IsUserRequirementHandler>();
-            services.AddScoped<TokenService>();
 
             services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
 
             return services;
-            // we can add other services here
         }
     }
 }

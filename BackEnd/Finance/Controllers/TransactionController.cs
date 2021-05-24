@@ -1,16 +1,14 @@
-﻿using Finance.Application;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Threading.Tasks;
-using Finance.Application.Commands.TransactionCommands;
+using Finance.Application.CQRS.Commands.TransactionCommands;
+using Finance.Application.CQRS.Querries.Transaction;
 using Finance.Application.DtoModels.Transaction;
-using Finance.Application.Querries.Transaction;
-using Finance.Application.Services;
+using Finance.Application.Services.Pagination;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Finance.Controllers
 {
-    
     public class TransactionController : BaseApiController
     {
         [Authorize(Policy = "TransactionByIdRequirement")]
@@ -19,15 +17,13 @@ namespace Finance.Controllers
         {
             return HandleResult(await Mediator.Send(new TransactionDetails.Query {Id = id}));
         }
-
-        [Authorize]
+        
         [HttpGet]
         public async Task<IActionResult> GetAllTransactions([FromQuery] TransactionParams param)
         {
-            return HandlePageResult(await Mediator.Send(new TransactionList.Query{Params = param}));
+            return HandlePageResult(await Mediator.Send(new TransactionList.Query {Params = param}));
         }
-
-        [Authorize]
+        
         [HttpPost]
         public async Task<IActionResult> AddTransaction(TransactionDto model)
         {

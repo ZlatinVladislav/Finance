@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Finance.Infrastructure.Data\Finance.Infrastructure.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CQRS" />
+  </ItemGroup>
+
 </Project>
