@@ -58,6 +58,20 @@ export default class TransactionTypeStore {
         }
     }
 
+    loadingTransactionTypesAll = async () => {
+        this.loadingInitial = true;
+        try {
+            const result = await agent.TransactionTypes.listAll();
+            result.data.forEach(transactionType => {
+                this.setTransactionTypeOption(transactionType);
+            })
+            this.setLoadingInitial(false);
+        } catch (error) {
+            console.log(error);
+            this.setLoadingInitial(false);
+        }
+    }
+
     setPagination = (pagination: Pagination) => {
         this.pagination = pagination;
     }

@@ -3,6 +3,7 @@ import { User } from "./user";
 export interface UserProfile{
     userName:string;
     displayName:string;
+    userDescription?:string;
     image?:string;
     bio?:string;
     photos?:Photo[]

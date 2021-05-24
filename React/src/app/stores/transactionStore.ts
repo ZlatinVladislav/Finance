@@ -20,7 +20,7 @@ export default class TransactionStore {
         reaction(() => this.predicate.keys(), () => {
             this.pagingParams = new PagingParams();
             this.transactionRegistry.clear();
-            this.loadingTransactions()
+            // this.loadingTransactions()
         })
     }
 

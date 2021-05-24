@@ -27,7 +27,7 @@ export default observer(function NavBar() {
             <Toolbar>
                 <MenuItem component={NavLink} to='/'>
                     <img src="/assets/logo.png" alt='logo' style={{height: '38px'}}/>
-                    Finances
+                    Finance
                 </MenuItem>
                 <MenuItem component={NavLink} to='/transactions'>Transactions</MenuItem>
                 <MenuItem component={NavLink} to='/transactionTypes'>Transaction Types</MenuItem>

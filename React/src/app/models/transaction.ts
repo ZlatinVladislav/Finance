@@ -9,7 +9,7 @@ export interface Transaction {
     transactionType: string;
     isCanceled: boolean;
     userProfile?: UserProfile[];
-    bankDto?:Bank[];
+    bankDto?: Bank[];
 }
 
 export class TransactionFormValues {
@@ -19,8 +19,7 @@ export class TransactionFormValues {
     dateTransaction: Date | null = null;
     transactionType: string = '';
     isCanceled: boolean = false;
-    userProfile?: UserProfile[]=undefined;
-    bankDto?:Bank[]=undefined;
+    userProfile?: UserProfile[] = undefined;
     error: null
 
     constructor(transaction?: TransactionFormValues) {
@@ -31,7 +30,6 @@ export class TransactionFormValues {
             this.transactionType = transaction.transactionType;
             this.isCanceled = transaction.isCanceled;
             this.userProfile = transaction.userProfile;
-            this.bankDto = transaction.bankDto;
         }
     }
 }

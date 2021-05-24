@@ -1,9 +1,8 @@
 import { observer } from 'mobx-react-lite';
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Grid, Icon, Segment } from 'semantic-ui-react'
 import { Transaction } from "../../../app/models/transaction";
 import { format } from "date-fns";
-import TransactionListItem from "../dashboard/TransactionListItem";
 
 interface Props {
     transaction: Transaction

@@ -8,6 +8,7 @@ import { TransactionType, TransactionTypeFormValues } from "../models/transactio
 import { Photo, UserProfile } from "../models/profile";
 import { PaginatedResult } from "../models/pagination";
 import { Bank, BankFormValues } from "../models/bank";
+import { UserDescription } from "../models/userDescription";
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -88,6 +89,7 @@ const Transacions = {
 
 const TransactionTypes = {
     list: (params: URLSearchParams) => axios.get<PaginatedResult<TransactionType[]>>('/TransactionType', {params}).then(responseBody),
+    listAll: () => axios.get<TransactionType[]>('/TransactionType/all'),
     details: (id: string) => request.get<TransactionType>(`/TransactionType/${id}`),
     create: (transactionType: TransactionTypeFormValues) => request.post<void>('/TransactionType', transactionType),
     update: (transactionType: TransactionTypeFormValues) => request.put<void>(`/TransactionType/${transactionType.id}`, transactionType),
@@ -111,6 +113,8 @@ const Account = {
 
 const UserProfiles = {
     get: (userName: string) => request.get<UserProfile>(`/userProfile/${userName}`),
+    post: (description: UserDescription) => request.post<void>(`/userProfile`,description),
+    put: (description: UserDescription) => request.put<void>(`/userProfile`,description),
     uploadPhoto: (file: Blob) => {
         let formData = new FormData();
         formData.append('File', file);

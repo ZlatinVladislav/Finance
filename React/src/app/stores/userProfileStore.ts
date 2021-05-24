@@ -2,9 +2,11 @@ import { makeAutoObservable, runInAction } from "mobx";
 import { Photo, UserProfile } from "../models/profile";
 import agent from "../api/agent";
 import { store } from "./store";
+import { UserDescription, UserDescriptionFormValues } from "../models/userDescription";
 
 export default class UserProfileStore {
     userProfile: UserProfile | null = null;
+    userDescription:UserDescription|null=null;
     loadingProfile = false;
     uploading = false;
     loading = false;
@@ -31,6 +33,32 @@ export default class UserProfileStore {
         } catch (error) {
             console.log(error);
             runInAction(() => this.loadingProfile = false)
+        }
+    }
+
+    createDescription = async (description: UserDescriptionFormValues) => {
+        this.uploading = true;
+        try {
+            await agent.UserProfiles.post(description);
+            runInAction(() => {
+                this.uploading = false;
+            })
+        } catch (error) {
+            console.log(error)
+            runInAction(() => this.uploading = false);
+        }
+    }
+
+    uploadDescription = async (description: UserDescriptionFormValues) => {
+        this.uploading = true;
+        try {
+            await agent.UserProfiles.put(description);
+            runInAction(() => {
+                this.uploading = false;
+            })
+        } catch (error) {
+            console.log(error)
+            runInAction(() => this.uploading = false);
         }
     }
 

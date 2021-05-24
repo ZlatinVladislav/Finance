@@ -19,7 +19,7 @@ export default observer(function TransactionForm() {
         transactionTypeStore: {
             loadTransactionTypes,
             transactionTypesOptionsArray,
-            loadingTransactionTypes
+            loadingTransactionTypesAll
         }, transactionStore
     } = useStore();
     const {
@@ -44,7 +44,7 @@ export default observer(function TransactionForm() {
             // @ts-ignore
             loadTransactions(id).then(transaction => setTransaction(new TransactionFormValues(transaction)));
         }
-        loadingTransactionTypes();
+        loadingTransactionTypesAll();
     }, [id, loadTransactions, loadTransactionTypes])
 
     function handleFormSubmit(transaction: TransactionFormValues) {
