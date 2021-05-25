@@ -7,7 +7,7 @@ import { User, UserFormValues } from "../models/user";
 import { TransactionType, TransactionTypeFormValues } from "../models/transactionType";
 import { Photo, UserProfile } from "../models/profile";
 import { PaginatedResult } from "../models/pagination";
-import { Bank, BankFormValues } from "../models/bank";
+import { Bank } from "../models/bank";
 import { UserDescription } from "../models/userDescription";
 
 const sleep = (delay: number) => {
@@ -16,7 +16,7 @@ const sleep = (delay: number) => {
     })
 }
 
-axios.defaults.baseURL = 'https://localhost:44303/api';
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 axios.interceptors.request.use(config => {
     const token = store.commonStore.token;
@@ -25,7 +25,7 @@ axios.interceptors.request.use(config => {
 })
 
 axios.interceptors.response.use(async response => {
-    await sleep(1000);
+    if(process.env.NODE_ENV==='development') await sleep(1000);
     const pagination = response.headers['pagination'];
     if (pagination) {
         response.data = new PaginatedResult(response.data, JSON.parse(pagination));
@@ -99,10 +99,7 @@ const TransactionTypes = {
 const Banks = {
     list: () => axios.get<Bank[]>('/Bank'),
     assignBank:(bankId:string,transactionId:string)=>request.post<Bank>(`/Bank/${bankId}/transaction/${transactionId}`),
-    details: (id: string) => request.get<Bank>(`/Bank/${id}`),
-    // create: (transactionType: TransactionTypeFormValues) => request.post<void>('/TransactionType', transactionType),
-    // update: (transactionType: TransactionTypeFormValues) => request.put<void>(`/TransactionType/${transactionType.id}`, transactionType),
-    // delete: (id: string) => request.del<void>(`/TransactionType/${id}`),
+    details: (id: string) => request.get<Bank>(`/Bank/${id}`)
 }
 
 const Account = {

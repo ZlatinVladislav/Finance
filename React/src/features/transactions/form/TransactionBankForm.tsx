@@ -4,15 +4,12 @@ import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
 import { Link, useHistory, useParams } from "react-router-dom";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
-import { v4 as uuid } from 'uuid';
 import { ErrorMessage, Form, Formik } from "formik";
 import * as Yup from 'yup'
-import MyTextInput from "../../../app/common/form/MyTextInput";
 import MySelectInput from "../../../app/common/form/MySelectInput";
-import MyDateInput from "../../../app/common/form/MyDateInput";
 import { TransactionFormValues } from "../../../app/models/transaction";
-import ValidationError from "../../errors/ValidationError";
 import { BankFormValues } from "../../../app/models/bank";
+import ValidationError from "../../errors/ValidationError";
 
 export default observer(function TransactionForm() {
     const history = useHistory();
@@ -28,7 +25,7 @@ export default observer(function TransactionForm() {
         loadTransactions,
         loadingInitial
     } = transactionStore;
-    const {bankId, id} = useParams<{ id: string, bankId: string }>();
+    const {id} = useParams<{ id: string, bankId: string }>();
 
     const [transaction, setTransaction] = useState<TransactionFormValues>(new TransactionFormValues());
     const [bankTransaction, setBankTransaction] = useState<BankFormValues>(new BankFormValues());
@@ -64,9 +61,9 @@ export default observer(function TransactionForm() {
                     <Form className='ui form' onSubmit={handleSubmit} autoComplete='off'>
                         <MySelectInput options={banksOptionsArray} placeholder='Bank'
                                        name='id'/>
-                        {/*<ErrorMessage name='error' render={() =>*/}
-                        {/*    <ValidationError errors={errors.error}/>}*/}
-                        {/*/>*/}
+                        <ErrorMessage name='error' render={() =>
+                            <ValidationError errors={errors.name}/>}
+                        />
                         <Button
                             disabled={isSubmitting || !dirty || !isValid}
                             loading={isSubmitting} floated='right' positive type='submit' content='Submit'/>

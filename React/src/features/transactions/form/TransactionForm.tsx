@@ -12,6 +12,7 @@ import MySelectInput from "../../../app/common/form/MySelectInput";
 import MyDateInput from "../../../app/common/form/MyDateInput";
 import { TransactionFormValues } from "../../../app/models/transaction";
 import ValidationError from "../../errors/ValidationError";
+import MyRadioInput from "../../../app/common/form/MyRadioInput";
 
 export default observer(function TransactionForm() {
     const history = useHistory();
@@ -34,7 +35,7 @@ export default observer(function TransactionForm() {
 
     const validationSchema = Yup.object({
         money: Yup.number().min(1).required('The money field is required and greater than 0'),
-        transactionStatus: Yup.string().required('The transaction status field is required'),
+        transactionStatus: Yup.boolean().required('The transaction status field is required'),
         transactionTypeId: Yup.string().required('The transaction type field is required'),
         dateTransaction: Yup.string().required('The transaction date field is required').nullable()
     })
@@ -71,9 +72,9 @@ export default observer(function TransactionForm() {
                 onSubmit={(values, {setErrors}) => handleFormSubmit(values)}>
                 {({handleSubmit, isValid, isSubmitting, dirty, errors}) => (
                     <Form className='ui form' onSubmit={handleSubmit} autoComplete='off'>
+                        <MyRadioInput placeholder='TransactionStatus'
+                                      name='transactionStatus' label='Income'/>
                         <MyTextInput placeholder='Money' name='money'/>
-                        <MyTextInput placeholder='TransactionStatus'
-                                     name='transactionStatus'/>
                         <MySelectInput options={transactionTypesOptionsArray} placeholder='TransactionType'
                                        name='transactionTypeId'/>
                         <MyDateInput

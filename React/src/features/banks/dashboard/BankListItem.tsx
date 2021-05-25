@@ -1,11 +1,5 @@
-import { Button, Item, Segment } from "semantic-ui-react";
-import { Link } from "react-router-dom";
-import React, { SyntheticEvent, useState } from "react";
-import { useStore } from "../../../app/stores/store";
-import { TransactionType } from "../../../app/models/transactionType";
-import { Bank } from "../../../app/models/bank";
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core";
-import { DataGrid, GridColDef, GridValueGetterParams } from '@material-ui/data-grid';
+import React from "react";
+import { DataGrid, GridColDef } from '@material-ui/data-grid';
 import { useStyles } from "../../../assets/pages";
 
 interface Props {

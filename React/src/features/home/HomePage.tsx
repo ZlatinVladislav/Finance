@@ -21,7 +21,7 @@ export default observer(function HomePage() {
                     <>
                         <Header as='h2' inverted content='Welcome to Finance'/>
                         <Button as={Link} to='/transactions' size='huge' inverted>
-                            Open Transaction
+                            Open Transactions
                         </Button>
                     </>
                 ) : (

@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Button, MenuItem, AppBar, Toolbar, Select, Avatar, InputLabel } from "@material-ui/core";
+import {  Button, MenuItem, AppBar, Toolbar, Avatar } from "@material-ui/core";
 import { useStore } from "../stores/store";
 import { Link, NavLink } from "react-router-dom";
 import { observer } from "mobx-react-lite";
@@ -37,7 +37,7 @@ export default observer(function NavBar() {
                     <Button component={NavLink} to='/createTransaction'
                             style={{backgroundColor: 'rgba(76,255,0,0.61)'}}>Create Transaction</Button>
                 </MenuItem>
-                <MenuItem >
+                <MenuItem style={{alignItems:'right'}}>
                     <Avatar src={user?.image || '/assets/user.png'}
                             style={{float: 'inline-end', width: '35px', height: 'auto'}}/>
                     <IconButton

@@ -6,7 +6,7 @@ import { useStore } from "../../app/stores/store";
 import { UserDescriptionFormValues } from "../../app/models/userDescription";
 import { Form, Formik } from "formik";
 import MyTextArea from "../../app/common/form/MyTextArea";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import * as Yup from "yup";
 
 interface Props {
@@ -18,13 +18,9 @@ export default observer(function UserProfileAbout({userProfile}: Props) {
     const {
         userProfileStore: {
             isCurrentUser,
-            uploadPhoto,
-            uploading,
             createDescription,
             uploadDescription,
-            setMainPhoto,
-            loading,
-            deletePhoto, loadUserProfile
+           loadUserProfile
         }
     } = useStore();
 
@@ -33,7 +29,6 @@ export default observer(function UserProfileAbout({userProfile}: Props) {
     })
 
     const [addPhotoMode, setAddPhotoMode] = useState(false);
-    const [target, setTraget] = useState('');
 
     function handleFormSubmit(description: UserDescriptionFormValues) {
         if (userProfile.userDescription === null) {
