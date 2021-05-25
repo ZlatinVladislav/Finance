@@ -37,7 +37,7 @@ export default observer(function NavBar() {
                     <Button component={NavLink} to='/createTransaction'
                             style={{backgroundColor: 'rgba(76,255,0,0.61)'}}>Create Transaction</Button>
                 </MenuItem>
-                <MenuItem style={{alignItems:'right'}}>
+                <MenuItem  style={{marginLeft:'auto'}}>
                     <Avatar src={user?.image || '/assets/user.png'}
                             style={{float: 'inline-end', width: '35px', height: 'auto'}}/>
                     <IconButton

@@ -6,17 +6,17 @@ import { Alert } from '@material-ui/lab';
 interface Props {
     placeholder: string;
     name: string;
-    type?: string
+    type?: string;
     label?: string;
 }
 
 export default function MyRadioInput(props: Props) {
     const [field, meta, helpers] = useField(props.name);
-
     return (
         <Form.Field error={meta.touched && !!meta.error}>
             <label>{props.label}</label>
-            <Radio toggle value='true'/>
+            <Radio checked={field.value} name={props.name} type={'checkbox'} toggle
+                   onChange={(event, data) => helpers.setValue(data.checked)}/>
             {meta.touched && meta.error ? (
                 <Alert severity="error">{meta.error}</Alert>
             ) : null}
