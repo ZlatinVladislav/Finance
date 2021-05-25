@@ -26,6 +26,7 @@ namespace Finance
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+            app.UseStaticFiles();
 
             app.UseSerilogRequestLogging();
 
@@ -41,13 +42,17 @@ namespace Finance
 
             app.UseRouting();
 
+            app.UseDefaultFiles();
+
             app.UseCors("CorsPolicy");
 
             app.UseAuthentication();
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers();
+                endpoints.MapFallbackToController("Index", "Fallback");
+            });
         }
     }
 }
