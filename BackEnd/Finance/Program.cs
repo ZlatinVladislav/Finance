@@ -32,10 +32,10 @@ namespace Finance
             try
             {
                 Log.Information("Application is starting");
-                var context = services.GetRequiredService<FinanceDBContext>();
-                var userManager = services.GetRequiredService<UserManager<AppUser>>();
-                await context.Database.MigrateAsync();
-                await Seed.SeedData(context, userManager);
+                //var context = services.GetRequiredService<FinanceDBContext>();
+                //var userManager = services.GetRequiredService<UserManager<AppUser>>();
+                //await context.Database.MigrateAsync();
+                //await Seed.SeedData(context, userManager);
                 Log.Information("Application started successfully");
             }
             catch (Exception e)

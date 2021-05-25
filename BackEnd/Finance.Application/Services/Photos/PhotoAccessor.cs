@@ -21,8 +21,7 @@ namespace Finance.Application.Services.Photos
             );
             _cloudinary = new Cloudinary(account);
         }
-
-
+        
         public async Task<PhotoUploadResult> AddPhoto(IFormFile file)
         {
             if (file.Length <= 0) return null;
