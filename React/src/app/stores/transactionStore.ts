@@ -107,14 +107,14 @@ export default class TransactionStore {
     }
 
     loadTransactions = async (id: string) => {
-        let transaction = this.getTransaction(id);
-        if (transaction) {
-            this.selectedTransaction = transaction;
-            return transaction;
-        } else {
+        // et transaction = this.getTransaction(id);
+        // if (transaction) {
+        //     this.selectedTransaction = transaction;
+        //     return transaction;
+        // } else {
             this.loadingInitial = true;
             try {
-                transaction = await agent.Transacions.details(id);
+                const transaction = await agent.Transacions.details(id);
                 this.setTransaction(transaction);
                 runInAction(() => {
                     this.selectedTransaction = transaction;
@@ -125,7 +125,7 @@ export default class TransactionStore {
                 console.log(error);
                 this.setLoadingInitial(false);
             }
-        }
+
     }
 
     setLoadingInitial = (state: boolean) => {

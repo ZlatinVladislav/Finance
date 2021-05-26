@@ -8,7 +8,7 @@ interface Props {
     transaction: Transaction
 }
 
-export default observer(function ActivityDetailedInfo({transaction}: Props) {
+export default observer(function TransactionDetailedInfo({transaction}: Props) {
     return (
         <Segment.Group>
             <Segment attached='top'>
@@ -44,7 +44,7 @@ export default observer(function ActivityDetailedInfo({transaction}: Props) {
                    {transaction.bankDto?.length ? (
                        <span>
                            {transaction.bankDto.map((bank) => (
-                               <p>  {bank.name} </p>
+                               <p key={bank.id}>  {bank.name} </p>
                            ))}
                       </span>
                    ) : (<p>Banks were not defined</p>)}

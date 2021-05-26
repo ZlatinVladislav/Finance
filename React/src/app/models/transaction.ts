@@ -30,6 +30,7 @@ export class TransactionFormValues {
             this.transactionType = transaction.transactionType;
             this.isCanceled = transaction.isCanceled;
             this.userProfile = transaction.userProfile;
+            this.transactionStatus = transaction.transactionStatus;
         }
     }
 }

@@ -15,6 +15,7 @@ export default observer(function TransactionDetails() {
     const {id} = useParams<{ id: string }>();
 
     useEffect(() => {
+        console.log(id);
         if (id) {
             loadTransactions(id);
         }
