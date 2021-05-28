@@ -1,0 +1,90 @@
+05/18/2021 02:39:59 +03:00 Application is starting
+05/18/2021 02:40:01 +03:00 Entity Framework Core "5.0.2" initialized '"FinanceDBContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "MaxPoolSize=128 "
+05/18/2021 02:40:02 +03:00 Executed DbCommand ("46"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT 1"
+05/18/2021 02:40:02 +03:00 Executed DbCommand ("35"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT OBJECT_ID(N'[__EFMigrationsHistory]');"
+05/18/2021 02:40:02 +03:00 Executed DbCommand ("2"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT 1"
+05/18/2021 02:40:02 +03:00 Executed DbCommand ("1"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT OBJECT_ID(N'[__EFMigrationsHistory]');"
+05/18/2021 02:40:02 +03:00 Executed DbCommand ("16"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];"
+05/18/2021 02:40:02 +03:00 No migrations were applied. The database is already up to date.
+05/18/2021 02:40:02 +03:00 Executed DbCommand ("3"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [AspNetUsers] AS [a]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END"
+05/18/2021 02:40:02 +03:00 Executed DbCommand ("2"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Transaction] AS [t]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END"
+05/18/2021 02:40:02 +03:00 Application started successfully
+05/18/2021 02:48:37 +03:00 Application is starting
+05/18/2021 02:48:38 +03:00 Entity Framework Core "5.0.2" initialized '"FinanceDBContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "MaxPoolSize=128 "
+05/18/2021 02:48:39 +03:00 Executed DbCommand ("50"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT 1"
+05/18/2021 02:48:39 +03:00 Executed DbCommand ("33"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT OBJECT_ID(N'[__EFMigrationsHistory]');"
+05/18/2021 02:48:39 +03:00 Executed DbCommand ("1"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT 1"
+05/18/2021 02:48:39 +03:00 Executed DbCommand ("1"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT OBJECT_ID(N'[__EFMigrationsHistory]');"
+05/18/2021 02:48:39 +03:00 Executed DbCommand ("2"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];"
+05/18/2021 02:48:39 +03:00 No migrations were applied. The database is already up to date.
+05/18/2021 02:48:39 +03:00 Executed DbCommand ("2"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [AspNetUsers] AS [a]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END"
+05/18/2021 02:48:39 +03:00 Executed DbCommand ("23"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Transaction] AS [t]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END"
+05/18/2021 02:48:39 +03:00 Application started successfully
+05/18/2021 02:58:09 +03:00 Application is starting
+05/18/2021 02:58:10 +03:00 Entity Framework Core "5.0.2" initialized '"FinanceDBContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "MaxPoolSize=128 "
+05/18/2021 02:58:10 +03:00 Executed DbCommand ("38"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT 1"
+05/18/2021 02:58:10 +03:00 Executed DbCommand ("31"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT OBJECT_ID(N'[__EFMigrationsHistory]');"
+05/18/2021 02:58:10 +03:00 Executed DbCommand ("7"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT 1"
+05/18/2021 02:58:10 +03:00 Executed DbCommand ("2"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT OBJECT_ID(N'[__EFMigrationsHistory]');"
+05/18/2021 02:58:10 +03:00 Executed DbCommand ("3"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];"
+05/18/2021 02:58:10 +03:00 No migrations were applied. The database is already up to date.
+05/18/2021 02:58:11 +03:00 Executed DbCommand ("3"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [AspNetUsers] AS [a]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END"
+05/18/2021 02:58:11 +03:00 Executed DbCommand ("2"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Transaction] AS [t]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END"
+05/18/2021 02:58:11 +03:00 Application started successfully
