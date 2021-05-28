@@ -7,7 +7,7 @@ import { Button, Typography, Container, ButtonGroup } from "@material-ui/core"
 
 export default function TestErrors() {
     const classes = useStyles();
-    const baseUrl = 'https://localhost:44303/api/'
+    const baseUrl = 'https://localhost:5001/api/'
     const [errors, setErros] = useState(null);
 
     function handleNotFound() {

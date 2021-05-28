@@ -76,7 +76,7 @@ export default observer(function TransactionForm() {
                                       name='transactionStatus' label='Income'/>
                         <MyTextInput placeholder='Money' name='money'/>
                         <MySelectInput options={transactionTypesOptionsArray} placeholder='TransactionType'
-                                       name='transactionType'/>
+                                       name='transactionTypeId'/>
                         <MyDateInput
                             placeholderText='TransactionDate'
                             name='dateTransaction'
