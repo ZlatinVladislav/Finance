@@ -34,7 +34,7 @@ namespace Finance.Application.CQRS.Querries.Bank
             {
                 var query = await _bankRepository.GetAll();
 
-                var banks = query.ToList();
+                var banks = query.OrderBy(x=>x.Name).ToList();
                 var bankDto = _mapper.Map<IEnumerable<BankDto>>(banks);
 
                 return Result<IEnumerable<BankDto>>.Success(bankDto);

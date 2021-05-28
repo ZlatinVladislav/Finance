@@ -16,7 +16,7 @@ namespace Finance.Infrastructure.Data.Context.SeedData
             {
                 var users = new List<AppUser>
                 {
-                    new AppUser {Id = userId, DisplayName = "Bob", UserName = "bob", Email = "bob@test.com"},
+                    new AppUser {Id = userId, DisplayName = "Vlad", UserName = "vlad", Email = "vlad@test.com"},
                     new AppUser {DisplayName = "Tom", UserName = "tom", Email = "tom@test.com"},
                     new AppUser {DisplayName = "Jane", UserName = "jane", Email = "jane@test.com"}
                 };
